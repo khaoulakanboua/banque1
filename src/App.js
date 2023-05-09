@@ -4,15 +4,12 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
-import { Route, Routes } from 'react-router-dom';
-import Agence from './pages/Agence';
-import Ville from './pages/Ville';
-import AgenceList from './components/agenceList';
-import Employe from './pages/Employe';
+import { Routes ,Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
 import Client from './pages/Client';
-import Test from './pages/Test';
+import Agence from "./pages/Agence";
+import Employe from "./pages/Employe";
 
 function App() {
   return (
@@ -22,6 +19,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/agence' element={<Agence />} />
         <Route path='/employe' element={<Employe />} />
+        <Route path='/client' element={<Client />} />
       </Routes>
     </div>
   );

@@ -85,9 +85,6 @@ export default function Agence() {
   function deleteUser(id) {
     axios.delete(`http://localhost:8080/banque/agences/delete/${id}`).then((result) => {
       console.log("delete ", id);
-      result.json().then((resp) => {
-        getVl();
-      });
     });
     forceUpdate(); // rel
   }
@@ -114,8 +111,10 @@ export default function Agence() {
 
   const updateZone = () => {
     axios
-      .put(`http://localhost:8080/banque/agences/update/${selectedZone.id}`, {
-        nom: form.getFieldValue("nom"),
+      .put(`http://localhost:8080/banque/agences/update`, {
+        id: selectedZone.id,
+        code: form.getFieldValue("code"),
+          adresse: form.getFieldValue("adresse"),
         ville: {
           id: modalVille,
         },
@@ -156,7 +155,10 @@ export default function Agence() {
     console.log("SelectedZone after update: ", selectedZone);
   }, [selectedZone]);
   useEffect(() => {
-    form.setFieldsValue({ nom: selectedZone?.nom });
+    form.setFieldsValue({ 
+          code: selectedZone?.code,
+          adresse: selectedZone?.adresse,
+          ville: selectedZone?.ville, });
   }, [selectedZone, form]);
   const columns = [
     {
@@ -277,60 +279,78 @@ export default function Agence() {
         bordered
         onChange={onChange}
       />
-      <Modal
-        forceRender
-        title="Title"
-        open={open}
-        confirmLoading={confirmLoading}
-        onCancel={handleCancel}
-        footer={[
-          <Button key="cancel" onClick={handleCancel}>
-            Cancel
-          </Button>,
-          <Button
-            key="submit"
-            type="primary"
-            loading={confirmLoading}
-            onClick={form.submit}
-          >
-            Save Changes
-          </Button>,
-        ]}
-      >
-        <Form
-          form={form}
-          onFinish={handleSubmit}
-          initialValues={{ nom: selectedZone?.nom }}
-        >
-          <Form.Item
-            label="Zone"
-            name="nom"
-            rules={[
-              {
-                required: true,
-                message: "Please input your zone!",
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item>
-          <Form.Item label="Ville" name="ville">
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              value={vl}
-              label="villes"
-              onChange={ModalhandleChange}
-              fullWidth
-              style={{ height: 14 }}
+            <Modal
+                forceRender
+                title="Title"
+                open={open}
+                confirmLoading={confirmLoading}
+                onCancel={handleCancel}
+                footer={[
+                    <Button key="cancel" onClick={handleCancel}>
+                        Cancel
+                    </Button>,
+                    <Button
+                        key="submit"
+                        type="primary"
+                        loading={confirmLoading}
+                        onClick={form.submit}
+                    >
+                        Save Changes
+                    </Button>,
+                ]}
             >
-              {allV?.map((item) => (
-                <MenuItem value={item.id}>{item.nom}</MenuItem>
-              ))}
-            </Select>
-          </Form.Item>
-        </Form>
-      </Modal>
+                <Form
+                    form={form}
+                    onFinish={handleSubmit}
+                    initialValues={{
+                        
+                        code: selectedZone?.code,
+                        adresse: selectedZone?.adresse,
+                        ville : selectedZone?.ville
+                        
+                    }}
+                >
+                    <Form.Item
+                        label="Code"
+                        name="code"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your code!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                    <Form.Item
+                        label="Adresse"
+                        name="adresse"
+                        rules={[
+                            {
+                                required: true,
+                                message: "Please input your adresse!",
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
+                   
+              <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={vl}
+                label="villes"
+                onChange={handleChange}
+              >
+                {allV?.map((item) => (
+                  <MenuItem value={item.id}>{item.nom}</MenuItem>
+                ))}
+              </Select>
+    
+              
+              </Form>
+            </Modal>
     </ThemeProvider>
   );
 }
