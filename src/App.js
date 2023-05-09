@@ -11,6 +11,8 @@ import AgenceList from './components/agenceList';
 import Employe from './pages/Employe';
 import Header from './components/Header';
 import Home from './pages/Home';
+import Client from './pages/Client';
+import Test from './pages/Test';
 
 function App() {
   return (
@@ -20,8 +22,6 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/agence' element={<Agence />} />
         <Route path='/employe' element={<Employe />} />
-        
-        <Route path='/ville' element={<Ville />} />
       </Routes>
     </div>
   );
