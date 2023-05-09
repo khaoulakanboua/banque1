@@ -158,6 +158,7 @@ export default function Employe() {
     const updateEmployee = () => {
         axios
             .put(`http://localhost:8080/banque/employees/update/${selectedEmp.id}`, {
+                id: selectedEmp.id,
                 cin: form.getFieldValue("cin"),
                 nom: form.getFieldValue("nom"),
                 prenom: form.getFieldValue("prenom"),
