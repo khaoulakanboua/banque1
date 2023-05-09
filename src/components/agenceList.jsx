@@ -40,23 +40,43 @@ const handleDelete = (id) => {
         }
       };
       const handleOpenModal = (agence) => {
-        setSelectedAgence(agence);
-        setModalIsOpen(true);
-    };
+  setSelectedAgence(agence);
+  setModalIsOpen(true);
+};
+const updateAgence = (updatedAgence) => {
+    setAgences(agences.map((agence) => {
+      if (agence.id === updatedAgence.id) {
+        return updatedAgence;
+      } else {
+        return agence;
+      }
+    }));
+  };
+  
+const handleCloseModal = () => {
+  setSelectedAgence(null);
+  setModalIsOpen(false);
+};
 
-    const handleCloseModal = () => {
-        setSelectedAgence(null);
-        setModalIsOpen(false);
-    };
-
-    const handleSave = () => {
-        handleCloseModal();
-    };
+const handleSave = async () => {
+  // Make API call to save changes to the database
+  try {
+    await axios.put(`/banque/agences/${selectedAgence.id}`, selectedAgence);
+        updateAgence(selectedAgence);
+        setSelectedAgence(prevState => {
+            return {...prevState, ville: villes.find(ville => ville.id === prevState.ville.id)}
+          });
+  } catch (error) {
+    console.error(error);
+  }
+  
+  handleCloseModal();
+};
 
 const handleEdit = (id) => {
         const newNom = window.prompt("Enter the new name for this serie:");
         if (newNom) {
-          axios.put(`/banque/agences/update/${id}`, {nom:newNom }).then(() => {
+          axios.put(`/banque/agences/${id}`, {nom:newNom }).then(() => {
             setAgences(agences.map((agence) => {
               if (agence.id === id) {
                 return { ...agence, nom: newNom };
@@ -132,19 +152,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         </TableBody>
       </Table>
       <Modal isOpen={modalIsOpen} onRequestClose={handleCloseModal}>
-                <h3>Modification de l'agence'</h3>
+                <h3>Modification de l'agence</h3>
                 <ul>
                     <li>
                         <label>Adresse:</label>
-                        <input type="text" value={selectedAgence && selectedAgence.adresse} />
-                    </li>
-                    <li>
-                        <label>Code:</label>
-                        <input type="text" value={selectedAgence && selectedAgence.code} />
-                    </li>
+                        <input 
+    type="text" 
+    value={selectedAgence && selectedAgence.adresse} 
+    onChange={(e) => setSelectedAgence({...selectedAgence, adresse: e.target.value})} 
+/>                    </li>
+<li>
+      <label>Code:</label>
+      <input 
+        type="text" 
+        value={selectedAgence && selectedAgence.code} 
+        onChange={(e) => setSelectedAgence({...selectedAgence, code: e.target.value})} 
+      />
+    </li>
                     <li>
                         <label>Ville:</label>
-                        <select value={selectedAgence && selectedAgence.ville && selectedAgence.ville.id}>
+                        <select value={selectedAgence && selectedAgence.ville && selectedAgence.ville.id}
+    onChange={(e) => setSelectedAgence({...selectedAgence, ville: {id: e.target.value}})}>
                             {villes.map((ville) => (
                                 <option key={ville.id} value={ville.id}>
                                     {ville.nom}
