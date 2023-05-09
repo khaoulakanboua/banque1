@@ -16,6 +16,10 @@ export default function Header() {
             label: 'Agence',
             command: () => {navigate('/agence') }
         },
+        {
+            label: 'Employe',
+            command: () => {navigate('/employe') }
+        },
         
 
 
