@@ -20,16 +20,7 @@ export default function Header() {
             label: 'Employe',
             command: () => {navigate('/employe') }
         },
-        {
-            label: 'Client',
-            command: () => {navigate('/client') }
-        },
-        {
-            label: 'test',
-            command: () => {navigate('/test') }
-        },
         
-
 
     ];
     const style = {
