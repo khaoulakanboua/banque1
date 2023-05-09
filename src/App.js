@@ -1,4 +1,3 @@
-
 import './App.css';
 import React from 'react'
 import "primereact/resources/themes/lara-light-indigo/theme.css";
@@ -14,11 +13,11 @@ import Home from './pages/Home';
 function App() {
   return (
     <div className="App">
-      <Header/>
+      <Header />
       <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/agence' element={<Agence/>} />
-        <Route path='/employe' element={<Employe/>} />
+        <Route path='/' element={<Home />} />
+        <Route path='/agence' element={<Agence />} />
+        <Route path='/employe' element={<Employe />} />
       </Routes>
     </div>
   );

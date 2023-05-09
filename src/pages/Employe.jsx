@@ -374,14 +374,16 @@ export default function Employe() {
                 <Form
                     form={form}
                     onFinish={handleSubmit}
-                    initialValues={{   cin: selectedEmp?.cin,
+                    initialValues={{
+                        cin: selectedEmp?.cin,
                         nom: selectedEmp?.nom,
                         prenom: selectedEmp?.prenom,
                         adresse: selectedEmp?.adresse,
                         email: selectedEmp?.email,
                         telephone: selectedEmp?.telephone,
                         dateNaissance: selectedEmp?.dateNaissance,
-                        matricule: selectedEmp?.matricule}}
+                        matricule: selectedEmp?.matricule
+                    }}
                 >
                     <Form.Item
                         label="cin"
