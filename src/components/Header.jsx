@@ -20,7 +20,10 @@ export default function Header() {
             label: 'Employe',
             command: () => {navigate('/employe') }
         },
-        
+        {
+            label: 'Ville',
+            command: () => {navigate('/ville') }
+        },
 
 
     ];

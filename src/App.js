@@ -6,6 +6,8 @@ import "primereact/resources/themes/lara-light-indigo/theme.css";
 import "primereact/resources/primereact.min.css";
 import { Route, Routes } from 'react-router-dom';
 import Agence from './pages/Agence';
+import Ville from './pages/Ville';
+import AgenceList from './components/agenceList';
 import Employe from './pages/Employe';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -18,6 +20,8 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/agence' element={<Agence />} />
         <Route path='/employe' element={<Employe />} />
+        
+        <Route path='/ville' element={<Ville />} />
       </Routes>
     </div>
   );
