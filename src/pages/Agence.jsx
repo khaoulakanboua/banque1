@@ -19,7 +19,7 @@ const theme = createTheme();
 
 export default function Agence() {
   const [villes, setVilles] = useState([]);
-  const [v ,setV]= useState()
+  const [v, setV] = useState()
   const [loading, setLoad] = useState(false);
   const [ag, setAg] = useState();
   const [upTB, forceUpdate] = useReducer((x) => x + 1, 0); // reaload tb
@@ -29,7 +29,7 @@ export default function Agence() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var d = {
-      code : data.get("code"),  
+      code: data.get("code"),
       adresse: data.get("adresse"),
       ville: {
         id: v,
@@ -47,19 +47,19 @@ export default function Agence() {
       });
     }
   };
-    // select villes
-    useEffect(() => {
-        axios.get("http://localhost:8080/banque/villes/read").then((res) => {
-            console.log("villes ",res.data)
-          setVilles(res.data);
-        });
-      }, []);
-    
-      const handleChange = (event) => {
-        setV(event.target.value);
-      };
+  // select villes
+  useEffect(() => {
+    axios.get("http://localhost:8080/banque/villes/read").then((res) => {
+      console.log("villes ", res.data)
+      setVilles(res.data);
+    });
+  }, []);
 
-        // ALL
+  const handleChange = (event) => {
+    setV(event.target.value);
+  };
+
+  // ALL
   const getAllAgences = async () => {
     setLoad(true);
     try {
@@ -69,7 +69,7 @@ export default function Agence() {
           id: row.id,
           code: row.code,
           adresse: row.adresse,
-          ville : row.ville.nom,
+          ville: row.ville.nom,
         }))
       );
       setVilles([...villes, v]);
@@ -89,10 +89,10 @@ export default function Agence() {
       key: "id",
     },
     {
-        title: "Code",
-        dataIndex: "code",
-        key: "code",
-      },
+      title: "Code",
+      dataIndex: "code",
+      key: "code",
+    },
     {
       title: "Adresse",
       dataIndex: "adresse",
@@ -102,7 +102,7 @@ export default function Agence() {
       title: "Ville",
       dataIndex: "ville",
       key: "ville",
-     },
+    },
     {
       title: "Action",
       render: (_, record) => (
@@ -153,7 +153,7 @@ export default function Agence() {
               id="adresse"
               autoFocus
             />
-             <TextField
+            <TextField
               margin="normal"
               required
               fullWidth
@@ -171,11 +171,11 @@ export default function Agence() {
                 label="villes"
                 onChange={handleChange}
               >
-                   {villes?.map((item) => (
+                {villes?.map((item) => (
                   <MenuItem>ertg</MenuItem>
                 ))}
               </Select>
-               
+
             </FormControl>
 
             <Button
@@ -197,7 +197,6 @@ export default function Agence() {
         bordered
         onChange={onChange}
       />
-      
     </ThemeProvider>
   );
 }
