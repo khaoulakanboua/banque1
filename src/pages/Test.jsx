@@ -17,7 +17,7 @@ import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
 
 const theme = createTheme();
 
-export default function Agence() {
+export default function Test() {
   const [villes, setVilles] = useState([]);
   const [loading, setLoad] = useState(false);
   const [vl, setVl] = useState();
@@ -38,11 +38,11 @@ export default function Agence() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var d = {
-      code: data.get("code"),
-      adresse: data.get("adresse"),
-      ville: {
-        id: v,
-      },
+        code: data.get("code"),
+        adresse: data.get("adresse"),
+        ville: {
+          id: v,
+        },
     };
     if (!d) {
       alert("Agence vide !");
@@ -64,10 +64,10 @@ export default function Agence() {
       const res = await axios.get("http://localhost:8080/banque/agences/read");
       setVl(
         res.data.map((row) => ({
-          id: row.id,
-          code: row.code,
-          adresse: row.adresse,
-          ville: row.ville.nom,
+            id: row.id,
+            code: row.code,
+            adresse: row.adresse,
+            ville: row.ville.nom,
         }))
       );
       setVilles([...villes, vl]);
@@ -169,10 +169,10 @@ export default function Agence() {
       key: "code",
     },
     {
-      title: "Adresse",
-      dataIndex: "adresse",
-      key: "adresse",
-    },
+        title: "Adresse",
+        dataIndex: "adresse",
+        key: "adresse",
+      },
     {
       title: "Ville",
       dataIndex: "ville",
@@ -233,7 +233,7 @@ export default function Agence() {
               id="code"
               autoFocus
             />
-            <TextField
+             <TextField
               margin="normal"
               required
               fullWidth
