@@ -20,8 +20,14 @@ export default function Header() {
             label: 'Employe',
             command: () => {navigate('/employe') }
         },
-        
-
+        {
+            label: 'Client',
+            command: () => {navigate('/client') }
+        },
+        {
+            label: 'Age',
+            command: () => {navigate('/ListAgence') }
+        },
 
     ];
     const style = {

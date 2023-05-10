@@ -19,26 +19,35 @@ const theme = createTheme();
 
 export default function Agence() {
   const [villes, setVilles] = useState([]);
-  const [v, setV] = useState()
   const [loading, setLoad] = useState(false);
-  const [ag, setAg] = useState();
+  const [vl, setVl] = useState();
   const [upTB, forceUpdate] = useReducer((x) => x + 1, 0); // reaload tb
+  const [allV, setAllV] = useState([]);
+  const [v, setV] = useState("");
+  //modal
+  const [open, setOpen] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [setModalText] = useState("Content of the modal");
+  const [form] = Form.useForm();
+  const [modalVille, setMv] = useState("");
+  const [selectedZone, setSelectedZone] = useState(null);
+  //
 
   // SAVE
   const onSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var d = {
-      code: data.get("code"),
-      adresse: data.get("adresse"),
-      ville: {
-        id: v,
-      },
+        code: data.get("code"),
+        adresse: data.get("adresse"),
+        ville: {
+          id: v,
+        },
     };
-    if (!d.nom) {
-      alert("agence vide !");
+    if (!d) {
+      alert("Agence vide !");
     } else {
-      fetch("http://localhost:8080/banque/agences/create", {
+      fetch("/banque/agences/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(d),
@@ -47,41 +56,107 @@ export default function Agence() {
       });
     }
   };
-  // select villes
-  useEffect(() => {
-    axios.get("http://localhost:8080/banque/villes/read").then((res) => {
-      console.log("villes ", res.data)
-      setVilles(res.data);
-    });
-  }, []);
-
-  const handleChange = (event) => {
-    setV(event.target.value);
-  };
 
   // ALL
-  const getAllAgences = async () => {
+  const getVl = async () => {
     setLoad(true);
     try {
-      const res = await axios.get("http://localhost:8080/banque/agences/read")
-      setAg(
+      const res = await axios.get("/banque/agences/read");
+      setVl(
         res.data.map((row) => ({
-          id: row.id,
-          code: row.code,
-          adresse: row.adresse,
-          ville: row.ville.nom,
+            id: row.id,
+            code: row.code,
+            adresse: row.adresse,
+            ville: row.ville.nom,
         }))
       );
-      setVilles([...villes, v]);
+      setVilles([...villes, vl]);
     } catch (error) {
       console.error(error);
     }
     setLoad(false);
   };
   useEffect(() => {
-    getAllAgences();
+    getVl();
   }, [upTB]);
 
+  // Delete
+  function deleteUser(id) {
+    axios.delete(`/banque/agences/delete/${id}`).then((result) => {
+      console.log("delete ", id);
+      result.json().then((resp) => {
+        getVl();
+      });
+    });
+    forceUpdate(); // rel
+  }
+
+  // villes
+
+  // select villes
+  useEffect(() => {
+    axios.get("/banque/villes/read").then((res) => {
+      setAllV(res.data);
+    });
+  }, []);
+
+  const handleChange = (event) => {
+    console.log(event.target.value)
+    setV(event.target.value);
+  };
+  //
+  //MODAL
+  const ModalhandleChange = (e) => {
+    setMv(e.target.value);
+  };
+  //
+
+  const updateZone = () => {
+    axios
+      .put(`/banque/agences/update/${selectedZone.id}`, {
+        nom: form.getFieldValue("nom"),
+        ville: {
+          id: modalVille,
+        },
+      })
+      .then((result) => {
+        getVl();
+        form.resetFields();
+        setOpen(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    forceUpdate();
+  };
+
+  const handleCancel = () => {
+    setSelectedZone(null);
+    setOpen(false);
+    form.resetFields();
+  };
+
+  const handleUpdate = (record) => {
+    setSelectedZone(record);
+    setOpen(true);
+  };
+
+  const handleSubmit = () => {
+    setModalText("The modal will be closed after one second");
+    setConfirmLoading(true);
+    updateZone();
+    setTimeout(() => {
+      setConfirmLoading(false);
+      setOpen(false);
+    }, 1000);
+  };
+
+  useEffect(() => {
+    console.log("SelectedZone after update: ", selectedZone);
+  }, [selectedZone]);
+  useEffect(() => {
+    form.setFieldsValue({ nom: selectedZone?.nom });
+  }, [selectedZone, form]);
   const columns = [
     {
       title: "ID",
@@ -94,26 +169,31 @@ export default function Agence() {
       key: "code",
     },
     {
-      title: "Adresse",
-      dataIndex: "adresse",
-      key: "adresse",
-    },
+        title: "Adresse",
+        dataIndex: "adresse",
+        key: "adresse",
+      },
     {
       title: "Ville",
       dataIndex: "ville",
       key: "ville",
+      filters: allV.map((v) => ({
+        text: v.nom,
+        value: v.nom,
+      })),
+      onFilter: (value, record) => record.ville.indexOf(value) === 0,
     },
     {
       title: "Action",
       render: (_, record) => (
         <Space size="middle">
-          <Button variant="outlined" onClick={() => console.log(record)}>
+          <Button variant="outlined" onClick={() => handleUpdate(record)}>
             Update
           </Button>
 
           <Popconfirm
             title="Sure to delete?"
-            onConfirm={() => console.log(record.id)}
+            onConfirm={() => deleteUser(record.id)}
           >
             <Button variant="outlined">Delete</Button>
           </Popconfirm>
@@ -131,7 +211,7 @@ export default function Agence() {
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 3,
+            marginTop: 8,
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
@@ -148,18 +228,18 @@ export default function Agence() {
               margin="normal"
               required
               fullWidth
-              name="adresse"
-              label="adresse"
-              id="adresse"
+              name="code"
+              label="code"
+              id="code"
               autoFocus
             />
-            <TextField
+             <TextField
               margin="normal"
               required
               fullWidth
-              name="code"
-              label="Code"
-              id="code"
+              name="adresse"
+              label="adresse"
+              id="adresse"
               autoFocus
             />
             <FormControl fullWidth style={{ marginTop: 17 }}>
@@ -167,15 +247,14 @@ export default function Agence() {
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
-                value={v}
+                value={vl}
                 label="villes"
                 onChange={handleChange}
               >
-                {villes?.map((item) => (
-                  <MenuItem>ertg</MenuItem>
+                {allV?.map((item) => (
+                  <MenuItem value={item.id}>{item.nom}</MenuItem>
                 ))}
               </Select>
-
             </FormControl>
 
             <Button
@@ -192,11 +271,65 @@ export default function Agence() {
 
       <Table
         columns={columns}
-        dataSource={ag}
+        dataSource={vl}
         loading={loading}
         bordered
         onChange={onChange}
       />
+      <Modal
+        forceRender
+        title="Title"
+        open={open}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="cancel" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={confirmLoading}
+            onClick={form.submit}
+          >
+            Save Changes
+          </Button>,
+        ]}
+      >
+        <Form
+          form={form}
+          onFinish={handleSubmit}
+          initialValues={{ nom: selectedZone?.nom }}
+        >
+          <Form.Item
+            label="Zone"
+            name="nom"
+            rules={[
+              {
+                required: true,
+                message: "Please input your zone!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item label="Ville" name="ville">
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={vl}
+              label="villes"
+              onChange={ModalhandleChange}
+              fullWidth
+              style={{ height: 14 }}
+            >
+              {allV?.map((item) => (
+                <MenuItem value={item.id}>{item.nom}</MenuItem>
+              ))}
+            </Select>
+          </Form.Item>
+        </Form>
+      </Modal>
     </ThemeProvider>
   );
 }
