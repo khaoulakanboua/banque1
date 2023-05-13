@@ -28,10 +28,9 @@ export default function Agence() {
   //modal
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [setModalText] = useState("Content of the modal");
   const [form] = Form.useForm();
   const [modalVille, setMv] = useState("");
-  const [selectedZone, setSelectedZone] = useState(null);
+  const [selectedAgence, setselectedAgence] = useState(null);
   //
 
   // SAVE
@@ -110,17 +109,18 @@ export default function Agence() {
   //
 
   const updateZone = () => {
+    let upForm = {
+      id: selectedAgence.id,
+      code: form.getFieldValue("code"),
+      adresse: form.getFieldValue("adresse"),
+      ville:{
+        id : modalVille,
+      } 
+    }
+    console.log("upForm ", upForm)
     axios
-      .put(`http://localhost:8080/banque/agences/update`, {
-        id: selectedZone.id,
-        code: form.getFieldValue("code"),
-          adresse: form.getFieldValue("adresse"),
-        ville: {
-          id: modalVille,
-        },
-      })
-      .then((result) => {
-        getVl();
+      .put(`http://localhost:8080/banque/agences/update`, upForm)
+      .then(() => {
         form.resetFields();
         setOpen(false);
       })
@@ -131,18 +131,17 @@ export default function Agence() {
   };
 
   const handleCancel = () => {
-    setSelectedZone(null);
+    setselectedAgence(null);
     setOpen(false);
     form.resetFields();
   };
 
   const handleUpdate = (record) => {
-    setSelectedZone(record);
+    setselectedAgence(record);
     setOpen(true);
   };
 
   const handleSubmit = () => {
-    setModalText("The modal will be closed after one second");
     setConfirmLoading(true);
     updateZone();
     setTimeout(() => {
@@ -152,14 +151,15 @@ export default function Agence() {
   };
 
   useEffect(() => {
-    console.log("SelectedZone after update: ", selectedZone);
-  }, [selectedZone]);
+    console.log("selectedAgence after update: ", selectedAgence);
+  }, [selectedAgence]);
   useEffect(() => {
-    form.setFieldsValue({ 
-          code: selectedZone?.code,
-          adresse: selectedZone?.adresse,
-          ville: selectedZone?.ville, });
-  }, [selectedZone, form]);
+    form.setFieldsValue({
+      code: selectedAgence?.code,
+      adresse: selectedAgence?.adresse,
+      ville: selectedAgence?.ville
+    });
+  }, [selectedAgence, form]);
   const columns = [
     {
       title: "ID",
@@ -279,78 +279,78 @@ export default function Agence() {
         bordered
         onChange={onChange}
       />
-            <Modal
-                forceRender
-                title="Title"
-                open={open}
-                confirmLoading={confirmLoading}
-                onCancel={handleCancel}
-                footer={[
-                    <Button key="cancel" onClick={handleCancel}>
-                        Cancel
-                    </Button>,
-                    <Button
-                        key="submit"
-                        type="primary"
-                        loading={confirmLoading}
-                        onClick={form.submit}
-                    >
-                        Save Changes
-                    </Button>,
-                ]}
-            >
-                <Form
-                    form={form}
-                    onFinish={handleSubmit}
-                    initialValues={{
-                        
-                        code: selectedZone?.code,
-                        adresse: selectedZone?.adresse,
-                        ville : selectedZone?.ville
-                        
-                    }}
-                >
-                    <Form.Item
-                        label="Code"
-                        name="code"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your code!",
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                    <Form.Item
-                        label="Adresse"
-                        name="adresse"
-                        rules={[
-                            {
-                                required: true,
-                                message: "Please input your adresse!",
-                            },
-                        ]}
-                    >
-                        <Input />
-                    </Form.Item>
-                   
-              <InputLabel id="demo-simple-select-label">Villes</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={vl}
-                label="villes"
-                onChange={handleChange}
-              >
-                {allV?.map((item) => (
-                  <MenuItem value={item.id}>{item.nom}</MenuItem>
-                ))}
-              </Select>
-    
-              
-              </Form>
-            </Modal>
+      <Modal
+        forceRender
+        title="Title"
+        open={open}
+        confirmLoading={confirmLoading}
+        onCancel={handleCancel}
+        footer={[
+          <Button key="cancel" onClick={handleCancel}>
+            Cancel
+          </Button>,
+          <Button
+            key="submit"
+            type="primary"
+            loading={confirmLoading}
+            onClick={form.submit}
+          >
+            Save Changes
+          </Button>,
+        ]}
+      >
+        <Form
+          form={form}
+          onFinish={handleSubmit}
+          initialValues={{
+            code: selectedAgence?.code,
+            adresse: selectedAgence?.adresse,
+            ville: selectedAgence?.ville
+
+          }}
+        >
+          <Form.Item
+            label="Code"
+            name="code"
+            rules={[
+              {
+                required: true,
+                message: "Please input your code!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Adresse"
+            name="adresse"
+            rules={[
+              {
+                required: true,
+                message: "Please input your adresse!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+
+          <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedAgence?.ville}
+            label="villes"
+            onChange={ModalhandleChange}
+          >
+            {allV?.map((item) => (
+              <MenuItem value={item.id}>{item.nom}</MenuItem>
+            ))}
+          </Select>
+
+
+        </Form>
+      </Modal>
     </ThemeProvider>
   );
 }
