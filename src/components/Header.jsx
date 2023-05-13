@@ -20,8 +20,15 @@ export default function Header() {
             label: 'Employe',
             command: () => {navigate('/employe') }
         },
-        
+        {
+            label: 'Client',
+            command: () => {navigate('/client') }
+        },
 
+        {
+            label: 'Ville',
+            command: () => {navigate('/ville') }
+        },
     ];
     const style = {
         backgroundColor: 'rgba(245,243,246,0.88)',
