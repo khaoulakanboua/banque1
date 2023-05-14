@@ -32,7 +32,7 @@ export default function Employe() {
         if (!d.nom) {
             alert("agence vide !");
         } else {
-            fetch("http://localhost:8080/banque/employees/create", {
+            fetch("/banque/employees/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(d),
@@ -45,7 +45,7 @@ export default function Employe() {
     const getAllAgences = async () => {
         setLoad(true);
         try {
-            const res = await axios.get("http://localhost:8080/banque/employees/read")
+            const res = await axios.get("/banque/employees/read")
             setEmp(
                 res.data.map((row) => ({
                     id: row.id,
@@ -70,7 +70,7 @@ export default function Employe() {
     // Delete 
     function deleteEmploye(id) {
         axios
-            .delete(`http://localhost:8080/banque/employees/delete/${id}`)
+            .delete(`/banque/employees/delete/${id}`)
             .then((result) => {
                 console.log("delete ", id);
             }).then(() => {
@@ -157,7 +157,7 @@ export default function Employe() {
 
     const updateEmployee = () => {
         axios
-            .put(`http://localhost:8080/banque/employees/update/${selectedEmp.id}`, {
+            .put(`/banque/employees/update/${selectedEmp.id}`, {
                 id: selectedEmp.id,
                 cin: form.getFieldValue("cin"),
                 nom: form.getFieldValue("nom"),

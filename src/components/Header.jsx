@@ -28,7 +28,10 @@ export default function Header() {
             label: 'Ville',
             command: () => {navigate('/ville') }
         },
-        
+        {
+            label: 'Compte',
+            command: () => {navigate('/compte') }
+        },
 
     ];
     const style = {

@@ -10,8 +10,8 @@ import Home from './pages/Home';
 import Client from './pages/Client';
 import Agence from "./pages/Agence";
 import Employe from "./pages/Employe";
-import Ville from "./pages/Ville";
-
+import Ville from './pages/Ville';
+import Compte from './pages/Compte';
 function App() {
   return (
     <div className="App">
@@ -22,6 +22,8 @@ function App() {
         <Route path='/employe' element={<Employe />} />
         <Route path='/client' element={<Client />} />
         <Route path='/ville' element={<Ville/>} />
+        <Route path='/compte' element={<Compte/>} />
+
       </Routes>
     </div>
   );

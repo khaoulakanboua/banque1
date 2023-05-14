@@ -18,12 +18,17 @@ import { FormControlLabel } from '@mui/material';
 
 const theme = createTheme();
 
-export default function Agence() {
-  const [villes, setVilles] = useState([]);
+export default function Compte() {
+  const [clients, setClients] = useState([]);
+  const [agences, setAgences] = useState([]);
+
   const [loading, setLoad] = useState(false);
   const [vl, setVl] = useState();
+  const [cl, setCl] = useState();
   const [upTB, forceUpdate] = useReducer((x) => x + 1, 0); // reaload tb
   const [allV, setAllV] = useState([]);
+  const [allC, setAllC] = useState([]);
+
   const [v, setV] = useState("");
   //modal
   const [open, setOpen] = useState(false);
@@ -38,16 +43,19 @@ export default function Agence() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     var d = {
-      code: data.get("code"),
-      adresse: data.get("adresse"),
-      ville: {
+        numeroCompte: data.get("numeroCompte"),
+      solde: data.get("solde"),
+      agence: {
+        id: v,
+      },
+      client: {
         id: v,
       },
     };
     if (!d) {
-      alert("Agence vide !");
+      alert("Compte vide !");
     } else {
-      fetch("/banque/agences/create", {
+      fetch("/banque/comptes/create", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(d),
@@ -61,16 +69,20 @@ export default function Agence() {
   const getVl = async () => {
     setLoad(true);
     try {
-      const res = await axios.get("/banque/agences/read");
+      const res = await axios.get("/banque/comptes/read");
       setVl(
         res.data.map((row) => ({
           id: row.id,
-          code: row.code,
-          adresse: row.adresse,
-          ville: row.ville.nom,
+          numeroCompte: row.numeroCompte,
+          solde: row.solde,
+          agence: row.agence.adresse,
+          client: row.client.nom,
+
         }))
       );
-      setVilles([...villes, vl]);
+      setAgences([...agences, vl]);
+      setClients([...clients, vl]);
+
     } catch (error) {
       console.error(error);
     }
@@ -92,10 +104,17 @@ export default function Agence() {
 
   // select villes
   useEffect(() => {
-    axios.get("/banque/villes/read").then((res) => {
+    axios.get("/banque/agences/read").then((res) => {
       setAllV(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    axios.get("/banque/clients/read").then((res) => {
+      setAllC(res.data);
+    });
+  }, []);
+
 
   const handleChange = (event) => {
     console.log(event.target.value)
@@ -167,25 +186,35 @@ export default function Agence() {
       key: "id",
     },
     {
-      title: "Code",
-      dataIndex: "code",
-      key: "code",
+      title: "numeroCompte",
+      dataIndex: "numeroCompte",
+      key: "numeroCompte",
     },
     {
-      title: "Adresse",
-      dataIndex: "adresse",
-      key: "adresse",
+      title: "Solde",
+      dataIndex: "solde",
+      key: "solde",
     },
     {
-      title: "Ville",
-      dataIndex: "ville",
-      key: "ville",
+      title: "Agence",
+      dataIndex: "agence",
+      key: "agence",
       filters: allV.map((v) => ({
-        text: v.nom,
-        value: v.nom,
+        text: v.adresse,
+        value: v.adresse,
       })),
-      onFilter: (value, record) => record.ville.indexOf(value) === 0,
+      onFilter: (value, record) => record.agence.indexOf(value) === 0,
     },
+    {
+        title: "Client",
+        dataIndex: "client",
+        key: "client",
+        filters: allC.map((c) => ({
+          text: c.nom,
+          value: c.nom,
+        })),
+        onFilter: (value, record) => record.client.indexOf(value) === 0,
+      },
     {
       title: "Action",
       render: (_, record) => (
@@ -224,42 +253,55 @@ export default function Agence() {
             <LockOutlinedIcon />
           </PublicIcon>
           <Typography component="h1" variant="h5">
-            Ajouter Agence
+            Ajouter Compte
           </Typography>
           <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              name="code"
-              label="code"
-              id="code"
+              name="numeroCompte"
+              label="numeroCompte"
+              id="numeroCompte"
               autoFocus
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="adresse"
-              label="adresse"
-              id="adresse"
+              name="solde"
+              label="solde"
+              id="solde"
               autoFocus
             />
             <FormControl fullWidth style={{ marginTop: 17 }}>
-              <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+              <InputLabel id="demo-simple-select-label">Agence</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 value={vl}
-                label="villes"
+                label="agences"
                 onChange={handleChange}
               >
                 {allV?.map((item) => (
+                  <MenuItem value={item.id}>{item.adresse}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl fullWidth style={{ marginTop: 17 }}>
+              <InputLabel id="demo-simple-select-label">Client</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={vl}
+                label="clients"
+                onChange={handleChange}
+              >
+                {allC?.map((item) => (
                   <MenuItem value={item.id}>{item.nom}</MenuItem>
                 ))}
               </Select>
             </FormControl>
-
             <Button
               type="submit"
               fullWidth

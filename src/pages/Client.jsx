@@ -31,7 +31,7 @@ export default function Client() {
         if (!d.nom) {
             alert("agence vide !");
         } else {
-            fetch("http://localhost:8080/banque/clients/create", {
+            fetch("/banque/clients/create", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(d),
@@ -44,7 +44,7 @@ export default function Client() {
     const getAllAgences = async () => {
         setLoad(true);
         try {
-            const res = await axios.get("http://localhost:8080/banque/clients/read")
+            const res = await axios.get("/banque/clients/read")
             setEmp(
                 res.data.map((row) => ({
                     id: row.id,
@@ -68,7 +68,7 @@ export default function Client() {
     // Delete 
     function deleteEmploye(id) {
         axios
-            .delete(`http://localhost:8080/banque/clients/delete/${id}`)
+            .delete(`/banque/clients/delete/${id}`)
             .then((result) => {
                 console.log("delete ", id);
             }).then(() => {
@@ -151,7 +151,7 @@ export default function Client() {
 
     const updateEmployee = () => {
         axios
-            .put(`http://localhost:8080/banque/clients/update/${selectedEmp.id}`, {
+            .put(`/banque/clients/update/${selectedEmp.id}`, {
                 cin: form.getFieldValue("cin"),
                 nom: form.getFieldValue("nom"),
                 prenom: form.getFieldValue("prenom"),
