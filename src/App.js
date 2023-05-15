@@ -12,6 +12,7 @@ import Agence from "./pages/Agence";
 import Employe from "./pages/Employe";
 import Ville from './pages/Ville';
 import Compte from './pages/Compte';
+import DepotForm from './pages/Banque';
 function App() {
   return (
     <div className="App">
@@ -23,6 +24,8 @@ function App() {
         <Route path='/client' element={<Client />} />
         <Route path='/ville' element={<Ville/>} />
         <Route path='/compte' element={<Compte/>} />
+        <Route path='/banque' element={<DepotForm/>} />
+
 
       </Routes>
     </div>
