@@ -153,18 +153,18 @@ export default function Employe() {
     const [selectedEmp, setSelectedEmp] = useState(null);
 
     const updateEmployee = () => {
-        axios
-            .put(`/banque/employees/update/${selectedEmp.id}`, {
-                id: selectedEmp.id,
-                cin: form.getFieldValue("cin"),
-                nom: form.getFieldValue("nom"),
-                prenom: form.getFieldValue("prenom"),
-                adresse: form.getFieldValue("adresse"),
-                email: form.getFieldValue("email"),
-                telephone: form.getFieldValue("telephone"),
-                dateNaissance: form.getFieldValue("dateNaissance"),
-                matricule: form.getFieldValue("matricule"),
-            })
+        var d= {
+            id: selectedEmp.id,
+            cin: form.getFieldValue("cin"),
+            nom: form.getFieldValue("nom"),
+            prenom: form.getFieldValue("prenom"),
+            adresse: form.getFieldValue("adresse"),
+            email: form.getFieldValue("email"),
+            telephone: form.getFieldValue("telephone"),
+            dateNaissance: form.getFieldValue("dateNaissance"),
+            matricule: form.getFieldValue("matricule"),
+        }
+       Employeervice.UpdateEmployeVille(d)
             .then((result) => {
                 console.log("update ", selectedEmp);
                 console.log("result ", result.data);
