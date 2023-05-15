@@ -32,6 +32,10 @@ export default function Header() {
             label: 'Compte',
             command: () => {navigate('/compte') }
         },
+        {
+            label: 'Banque',
+            command: () => {navigate('/banque') }
+        },
 
     ];
     const style = {
