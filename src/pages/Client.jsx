@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Card, CardContent } from '@mui/material';
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
+import { Clientervice } from "../service/client.service";
 
 
 export default function Client() {
@@ -31,11 +32,8 @@ export default function Client() {
         if (!d.nom) {
             alert("agence vide !");
         } else {
-            fetch("/banque/clients/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(d),
-            }).then(() => {
+           Clientervice.AddClient(d)
+            .then(() => {
                 forceUpdate(); // rel
             });
         }
@@ -44,7 +42,7 @@ export default function Client() {
     const getAllAgences = async () => {
         setLoad(true);
         try {
-            const res = await axios.get("/banque/clients/read")
+            const res = await Clientervice.getAllClient();
             setEmp(
                 res.data.map((row) => ({
                     id: row.id,
@@ -67,8 +65,7 @@ export default function Client() {
     }, [upTB]);
     // Delete 
     function deleteEmploye(id) {
-        axios
-            .delete(`/banque/clients/delete/${id}`)
+        Clientervice.DeleteClient(id)
             .then((result) => {
                 console.log("delete ", id);
             }).then(() => {
