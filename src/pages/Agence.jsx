@@ -15,6 +15,8 @@ import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
 import { FormControlLabel } from '@mui/material';
+import { Agenceservice } from "../service/agence.service";
+import { villeService } from "../service/ville.service";
 
 const theme = createTheme();
 
@@ -47,11 +49,8 @@ export default function Agence() {
     if (!d) {
       alert("Agence vide !");
     } else {
-      fetch("/banque/agences/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(d),
-      }).then(() => {
+      Agenceservice.AddAgence(d)
+      .then(() => {
         forceUpdate(); // rel
       });
     }
@@ -61,7 +60,7 @@ export default function Agence() {
   const getVl = async () => {
     setLoad(true);
     try {
-      const res = await axios.get("/banque/agences/read");
+      const res = await Agenceservice.getAllAgence();
       setVl(
         res.data.map((row) => ({
           id: row.id,
@@ -82,7 +81,8 @@ export default function Agence() {
 
   // Delete
   function deleteUser(id) {
-    axios.delete(`/banque/agences/delete/${id}`).then((result) => {
+   Agenceservice.DeleteAgence(id)
+    .then((result) => {
       console.log("delete ", id);
     });
     forceUpdate(); // rel
@@ -92,7 +92,8 @@ export default function Agence() {
 
   // select villes
   useEffect(() => {
-    axios.get("/banque/villes/read").then((res) => {
+    villeService.getAllVilles()
+    .then((res) => {
       setAllV(res.data);
     });
   }, []);
@@ -118,9 +119,8 @@ export default function Agence() {
       } 
     }
     console.log("upForm ", upForm)
-    axios
-      .put(`/banque/agences/update`, upForm)
-      .then(() => {
+    Agenceservice.UpdateAgence(upForm)
+    .then(() => {
         form.resetFields();
         setOpen(false);
       })

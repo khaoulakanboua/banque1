@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { Card, CardContent } from '@mui/material';
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
+import { Employeervice } from "../service/employe.service";
 
 
 export default function Employe() {
@@ -32,11 +33,8 @@ export default function Employe() {
         if (!d.nom) {
             alert("agence vide !");
         } else {
-            fetch("/banque/employees/create", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(d),
-            }).then(() => {
+           Employeervice.AddEmploye(d)
+            .then(() => {
                 forceUpdate(); // rel
             });
         }
@@ -45,7 +43,7 @@ export default function Employe() {
     const getAllAgences = async () => {
         setLoad(true);
         try {
-            const res = await axios.get("/banque/employees/read")
+            const res = await Employeervice.getAllEmploye();
             setEmp(
                 res.data.map((row) => ({
                     id: row.id,
@@ -69,8 +67,7 @@ export default function Employe() {
     }, [upTB]);
     // Delete 
     function deleteEmploye(id) {
-        axios
-            .delete(`/banque/employees/delete/${id}`)
+      Employeervice.DeleteEmploye(id)
             .then((result) => {
                 console.log("delete ", id);
             }).then(() => {

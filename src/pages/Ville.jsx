@@ -8,13 +8,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
 import { FormControlLabel } from '@mui/material';
+import { villeService } from "../service/ville.service";
+
 
 const theme = createTheme();
 
@@ -45,11 +46,8 @@ export default function Ville() {
     if (!d) {
       alert("Ville vide !");
     } else {
-      fetch("/banque/villes/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(d),
-      }).then(() => {
+     villeService.AddVille(d)
+      .then(() => {
         forceUpdate(); // rel
       });
     }
@@ -59,7 +57,7 @@ export default function Ville() {
   const getVl = async () => {
     setLoad(true);
     try {
-      const res = await axios.get("/banque/villes/read");
+      const res = await villeService.getAllVilles();
       setVl(
         res.data.map((row) => ({
           id: row.id,
@@ -78,7 +76,7 @@ export default function Ville() {
 
   // Delete
   function deleteUser(id) {
-    axios.delete(`/banque/villes/delete/${id}`).then((result) => {
+    villeService.DeleteVille(id).then((result) => {
       console.log("delete ", id);
     });
     forceUpdate(); // rel
@@ -88,7 +86,7 @@ export default function Ville() {
 
   // select villes
   useEffect(() => {
-    axios.get("/banque/villes/read").then((res) => {
+    villeService.getAllVilles().then((res) => {
       setAllV(res.data);
     });
   }, []);
@@ -111,8 +109,7 @@ export default function Ville() {
       code: form.getFieldValue("code"),
     }
     console.log("upForm ", upForm)
-    axios
-      .put(`/banque/villes/update`, upForm)
+    villeService.UpdateVille(upForm)
       .then(() => {
         form.resetFields();
         setOpen(false);

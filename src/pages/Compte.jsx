@@ -15,6 +15,9 @@ import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
 import { FormControlLabel } from '@mui/material';
+import { Compteservice } from "../service/compte.service";
+import { Agenceservice } from "../service/agence.service";
+import { Clientervice } from "../service/client.service";
 
 const theme = createTheme();
 
@@ -55,11 +58,8 @@ export default function Compte() {
     if (!d) {
       alert("Compte vide !");
     } else {
-      fetch("/banque/comptes/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(d),
-      }).then(() => {
+     Compteservice.AddCompte(d)
+      .then(() => {
         forceUpdate(); // rel
       });
     }
@@ -69,7 +69,8 @@ export default function Compte() {
   const getVl = async () => {
     setLoad(true);
     try {
-      const res = await axios.get("/banque/comptes/read");
+      const res = await Compteservice.getAllCompte();
+      console.log(res.data)
       setVl(
         res.data.map((row) => ({
           id: row.id,
@@ -94,7 +95,8 @@ export default function Compte() {
 
   // Delete
   function deleteUser(id) {
-    axios.delete(`/banque/agences/delete/${id}`).then((result) => {
+    Compteservice.DeleteCompte(id)
+    .then((result) => {
       console.log("delete ", id);
     });
     forceUpdate(); // rel
@@ -104,13 +106,15 @@ export default function Compte() {
 
   // select villes
   useEffect(() => {
-    axios.get("/banque/agences/read").then((res) => {
+    Agenceservice.getAllAgence()
+    .then((res) => {
       setAllV(res.data);
     });
   }, []);
 
   useEffect(() => {
-    axios.get("/banque/clients/read").then((res) => {
+   Clientervice.getAllClient()
+   .then((res) => {
       setAllC(res.data);
     });
   }, []);
@@ -137,9 +141,8 @@ export default function Compte() {
       } 
     }
     console.log("upForm ", upForm)
-    axios
-      .put(`/banque/agences/update`, upForm)
-      .then(() => {
+    Compteservice.UpdateCompte(upForm)
+     .then(() => {
         form.resetFields();
         setOpen(false);
       })
