@@ -10,7 +10,7 @@ let getOperationsByClient = (d) =>{
 }
 
 let depotByNumeroCompte =(b,m)=>{
-   return Axios.put(`/banque/apis/depotByNumeroCompte?montant=${m}`, b)
+   return Axios.post(`/banque/apis/depotByNumeroCompte?montant=${m}`, b)
 }
 
 let depotByCinClient = (b,m) =>{
@@ -18,14 +18,14 @@ let depotByCinClient = (b,m) =>{
 }
 
 let retraitByNumeroCompte = (b,m) =>{
-    return Axios.delete(`/banque/apis/retraitByNumeroCompte?montant=${m}`,b)
+    return Axios.post(`/banque/apis/retraitByNumeroCompte?montant=${m}`,b)
 }
 
 let retraitByCinClient = (b,m)=>{
     return Axios.delete(`/banque/apis/retraitByCinClient?montant=${m}`,b)
-}
+}   
 
 // Décaraltion des esrvices pour import
-export const Clientervice = {
+export const Banqueservice = {
     getSoldeByCompte, getOperationsByClient,depotByNumeroCompte,depotByCinClient,retraitByNumeroCompte,retraitByCinClient
 }
