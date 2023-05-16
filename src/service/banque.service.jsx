@@ -6,26 +6,41 @@ let getSoldeByCompte = (num) => {
 }
 
 let getOperationsByClient = (d) =>{
-    return Axios.post('/banque/apis/getOperationsByClient',d)
+    return Axios.get('/banque/apis/getOperationsByClient',d)
 }
 
 let depotByNumeroCompte =(b,m)=>{
-   return Axios.put(`/banque/apis/depotByNumeroCompte?montant=${m}`, b)
+   return Axios.post(`/banque/apis/depotByNumeroCompte?montant=${m}`, b)
 }
 
 let depotByCinClient = (b,m) =>{
-    return Axios.delete(`/banque/apis/depotByCinClient?montant=${m}`,b)
+    return Axios.post(`/banque/apis/depotByCinClient?montant=${m}`,b)
 }
 
 let retraitByNumeroCompte = (b,m) =>{
-    return Axios.delete(`/banque/apis/retraitByNumeroCompte?montant=${m}`,b)
+    return Axios.post(`/banque/apis/retraitByNumeroCompte?montant=${m}`,b)
 }
 
 let retraitByCinClient = (b,m)=>{
-    return Axios.delete(`/banque/apis/retraitByCinClient?montant=${m}`,b)
+    return Axios.post(`/banque/apis/retraitByCinClient?montant=${m}`,b)
 }
 
+let getProductsSmall= () =>[
+    {
+      name: 'retrait',
+      price: 111
+  },
+  {
+      name: 'depot',
+      price:333
+  },
+  {
+      name: 'solde',
+      price:333
+  }
+   ]
 // Décaraltion des esrvices pour import
-export const Clientervice = {
-    getSoldeByCompte, getOperationsByClient,depotByNumeroCompte,depotByCinClient,retraitByNumeroCompte,retraitByCinClient
+export const Banqueservice = {
+    getSoldeByCompte, getOperationsByClient,depotByNumeroCompte,depotByCinClient,retraitByNumeroCompte,retraitByCinClient,
+    getProductsSmall
 }
