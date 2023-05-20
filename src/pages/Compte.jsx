@@ -33,11 +33,15 @@ export default function Compte() {
   const [allC, setAllC] = useState([]);
 
   const [v, setV] = useState("");
+  const [c, setC] = useState("");
+
   //modal
   const [open, setOpen] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [form] = Form.useForm();
   const [modalVille, setMv] = useState("");
+  const [modalClient, setMc] = useState("");
+
   const [selectedAgence, setselectedAgence] = useState(null);
   //
 
@@ -52,7 +56,7 @@ export default function Compte() {
         id: v,
       },
       client: {
-        id: v,
+        id: c,
       },
     };
     if (!d) {
@@ -124,20 +128,30 @@ export default function Compte() {
     console.log(event.target.value)
     setV(event.target.value);
   };
+  const handleChange1 = (event) => {
+    console.log(event.target.value)
+    setC(event.target.value);
+  };
   //
   //MODAL
   const ModalhandleChange = (e) => {
     setMv(e.target.value);
+  };
+  const ModalhandleChange1 = (e) => {
+    setMc(e.target.value);
   };
   //
 
   const updateZone = () => {
     let upForm = {
       id: selectedAgence.id,
-      code: form.getFieldValue("code"),
-      adresse: form.getFieldValue("adresse"),
-      ville:{
+      numeroCompte: form.getFieldValue("numeroCompte"),
+      solde: form.getFieldValue("solde"),
+      agence:{
         id : modalVille,
+      },
+      client:{
+        id : modalClient,
       } 
     }
     console.log("upForm ", upForm)
@@ -177,9 +191,11 @@ export default function Compte() {
   }, [selectedAgence]);
   useEffect(() => {
     form.setFieldsValue({
-      code: selectedAgence?.code,
-      adresse: selectedAgence?.adresse,
-      ville: selectedAgence?.ville
+      numeroCompte: selectedAgence?.numeroCompte,
+      solde: selectedAgence?.solde,
+      agence: selectedAgence?.agence,
+      client: selectedAgence?.client,
+
     });
   }, [selectedAgence, form]);
   const columns = [
@@ -298,7 +314,7 @@ export default function Compte() {
                 id="demo-simple-select"
                 value={vl}
                 label="clients"
-                onChange={handleChange}
+                onChange={handleChange1}
               >
                 {allC?.map((item) => (
                   <MenuItem value={item.id}>{item.nom}</MenuItem>
@@ -348,51 +364,65 @@ export default function Compte() {
           form={form}
           onFinish={handleSubmit}
           initialValues={{
-            code: selectedAgence?.code,
-            adresse: selectedAgence?.adresse,
-            ville: selectedAgence?.ville
+            numeroCompte: selectedAgence?.numeroCompte,
+            solde: selectedAgence?.solde,
+            agence: selectedAgence?.agence,
+            client: selectedAgence?.client
+
 
           }}
         >
           <Form.Item
-            label="Code"
-            name="code"
+            label="numeroCompte"
+            name="numeroCompte"
             rules={[
               {
                 required: true,
-                message: "Please input your code!",
+                message: "Please input your numero de compte!",
               },
             ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Adresse"
-            name="adresse"
+            label="solde"
+            name="solde"
             rules={[
               {
                 required: true,
-                message: "Please input your adresse!",
+                message: "Please input your solde!",
               },
             ]}
           >
             <Input />
           </Form.Item>
 
-          <InputLabel id="demo-simple-select-label">Villes</InputLabel>
+          <InputLabel id="demo-simple-select-label">Agence</InputLabel>
           <Select
             fullWidth
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={selectedAgence?.ville}
+            value={selectedAgence?.agence}
             label="villes"
             onChange={ModalhandleChange}
           >
             {allV?.map((item) => (
+              <MenuItem value={item.id}>{item.adresse}</MenuItem>
+            ))}
+          </Select>
+          <InputLabel id="demo-simple-select-label">Client</InputLabel>
+          <Select
+            fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={selectedAgence?.client}
+            label="villes"
+            onChange={ModalhandleChange1}
+          >
+            {allC?.map((item) => (
               <MenuItem value={item.id}>{item.nom}</MenuItem>
             ))}
           </Select>
-
 
         </Form>
       </Modal>

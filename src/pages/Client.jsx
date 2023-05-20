@@ -147,16 +147,17 @@ export default function Client() {
     const [selectedEmp, setSelectedEmp] = useState(null);
 
     const updateEmployee = () => {
-        axios
-            .put(`/banque/clients/update/${selectedEmp.id}`, {
-                cin: form.getFieldValue("cin"),
-                nom: form.getFieldValue("nom"),
-                prenom: form.getFieldValue("prenom"),
-                adresse: form.getFieldValue("adresse"),
-                email: form.getFieldValue("email"),
-                telephone: form.getFieldValue("telephone"),
-                dateNaissance: form.getFieldValue("dateNaissance"),
-            })
+        var d= {
+            id: selectedEmp.id,
+            cin: form.getFieldValue("cin"),
+            nom: form.getFieldValue("nom"),
+            prenom: form.getFieldValue("prenom"),
+            adresse: form.getFieldValue("adresse"),
+            email: form.getFieldValue("email"),
+            telephone: form.getFieldValue("telephone"),
+            dateNaissance: form.getFieldValue("dateNaissance"),
+        }
+       Clientervice.UpdateClient(d)
             .then((result) => {
                 console.log("update ", selectedEmp);
                 console.log("result ", result.data);
@@ -267,7 +268,7 @@ export default function Client() {
                                             name="adresse"
                                             label="adresse"
                                             id="adresse"
-                                            autoComplete="nom"
+                                            autoComplete="adresse"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -299,7 +300,7 @@ export default function Client() {
                                             fullWidth
                                             name="dateNaissance"
                                             id="dateNaissance"
-                                            autoComplete="dateNadateissance"
+                                            autoComplete="dateNaissance"
                                             type="date"
                                         />
                                     </Grid>

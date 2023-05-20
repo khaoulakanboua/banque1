@@ -32,7 +32,20 @@ export default function Banque() {
         })
     }
   };
+  const saveProduct1 = () => {
+    if (!montant || !compte.numeroCompte) {
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
 
+    } else {
+      console.log(montant, compte.numeroCompte)
+      Banqueservice.retraitByNumeroCompte(compte, montant)
+        .then(() => {
+          setSubmitted(true);
+          setBanqueDialog(false)
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+        })
+    }
+  };
   const hideDialog = () => {
     setSubmitted(false);
     setBanqueDialog(false);
@@ -57,7 +70,12 @@ export default function Banque() {
       <Button label="Save" icon="pi pi-check" onClick={saveProduct} />
     </React.Fragment>
   );
-
+  const banqueDialogFooter1 = (
+    <React.Fragment>
+      <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog} />
+      <Button label="Save" icon="pi pi-check" onClick={saveProduct1} />
+    </React.Fragment>
+  );
   const Alert = (
     <div className="card flex flex-wrap align-items-center justify-content-center gap-3">
       <Message severity="warn" text="Warning Message" />
@@ -92,13 +110,29 @@ export default function Banque() {
             </Dialog>
           </div>
         </TabPanel>
-        <TabPanel header="Retrait" rightIcon="pi pi-user ml-2">
-          <p className="m-0">
-            Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam,
-            eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo
-            enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui
-            ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi.
-          </p>
+        <TabPanel header="Retrait" leftIcon="pi pi-calendar mr-2">
+          <div className="card flex justify-content-center">
+            <Button label="Show" icon="pi pi-external-link" onClick={() => setBanqueDialog(true)} />
+            <Dialog visible={banqueDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Retrait : " modal className="p-fluid" footer={banqueDialogFooter1} onHide={hideDialog}>
+
+              <div className="field">
+                <label htmlFor="numeroCompte" className="font-bold">
+                  Num Compte :
+                </label>
+                <InputText id="numeroCompte" value={compte.numeroCompte} onChange={(e) => onInputChange(e, 'numeroCompte')} required rows={3} cols={20} />
+                {submitted && !compte.numeroCompte && <small className="p-error">Numero de compte vide!</small>}
+              </div>
+              <div className="formgrid grid">
+                <div className="field col">
+                  <label htmlFor="montant" className="font-bold">
+                    Price
+                  </label>
+                  <InputNumber id="montant" value={montant} onValueChange={(e) => onInputNumberChange(e, 'montant')} required mode="currency" currency="MAD" locale="en-US" />
+                </div>
+              </div>
+
+            </Dialog>
+          </div>
         </TabPanel>
         <TabPanel header="Solde" leftIcon="pi pi-search mr-2" rightIcon="pi pi-cog ml-2">
           <p className="m-0">

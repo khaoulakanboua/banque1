@@ -13,6 +13,7 @@ import Employe from "./pages/Employe";
 import Ville from './pages/Ville';
 import Compte from './pages/Compte';
 import Banque from './pages/Banque';
+import Operation from './pages/Operation';
 function App() {
   return (
     <div className="App">
@@ -25,6 +26,8 @@ function App() {
         <Route path='/ville' element={<Ville/>} />
         <Route path='/compte' element={<Compte/>} />
         <Route path='/banque' element={<Banque/>} />
+        <Route path='/operation' element={<Operation/>} />
+
       </Routes>
     </div>
   );

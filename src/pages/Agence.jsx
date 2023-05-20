@@ -104,7 +104,7 @@ export default function Agence() {
   };
   //
   //MODAL
-  const ModalhandleChange = (e) => {
+  const ModalhandleChange = (e) => {  
     setMv(e.target.value);
   };
   //

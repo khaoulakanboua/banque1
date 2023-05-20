@@ -36,6 +36,10 @@ export default function Header() {
             label: 'Banque',
             command: () => {navigate('/banque') }
         },
+        {
+            label: 'Operation',
+            command: () => {navigate('/operation') }
+        },
 
     ];
     const style = {
