@@ -14,6 +14,7 @@ import Ville from './pages/Ville';
 import Compte from './pages/Compte';
 import Banque from './pages/Banque';
 import Operation from './pages/Operation';
+import Banque1 from './pages/Banque1';
 function App() {
   return (
     <div className="App">
@@ -27,6 +28,8 @@ function App() {
         <Route path='/compte' element={<Compte/>} />
         <Route path='/banque' element={<Banque/>} />
         <Route path='/operation' element={<Operation/>} />
+        <Route path='/banque1' element={<Banque1/>} />
+
 
       </Routes>
     </div>

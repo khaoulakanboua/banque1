@@ -1,6 +1,14 @@
 import Axios from './caller.service'
 
 
+let viremantBetweenClientByNumeroCompte = (compteEnvoie,compteRecoit,num) => {
+    return Axios.post(`/banque/apis/viremantBetweenClientByNumeroCompte/${compteEnvoie}/${compteRecoit}?montant=${num}`)
+}
+
+let viremantBetweenClientByCin = (clientEnvoie,clientRecoit,num) => {
+    return Axios.post(`/banque/apis/viremantBetweenClientByCin/${clientEnvoie}/${clientRecoit}?montant=${num}`)
+}
+
 let getSoldeByCompte = (num) => {
     return Axios.get(`/banque/apis/getSoldeByCompte?numeroCompte=${num}`)
 }
@@ -41,6 +49,6 @@ let getProductsSmall= () =>[
    ]
 // Décaraltion des esrvices pour import
 export const Banqueservice = {
-    getSoldeByCompte, getOperationsByClient,depotByNumeroCompte,depotByCinClient,retraitByNumeroCompte,retraitByCinClient,
-    getProductsSmall
+    getSoldeByCompte, getOperationsByClient,depotByNumeroCompte,depotByCinClient,retraitByNumeroCompte,retraitByCinClient,viremantBetweenClientByNumeroCompte,
+    getProductsSmall,viremantBetweenClientByCin
 }

@@ -9,6 +9,24 @@ export default function Header() {
 
     const items = [
         {
+            
+                    label: 'banques',
+                    icon: 'pi pi-fw pi-plus',
+                    items: [
+                        {
+                            label: 'By Numero de compte',
+                            command: () => {navigate('/banque') }
+                        },
+                        {
+                            label: 'By cin',
+                            command: () => {navigate('/banque1') }
+                        },
+
+                    ]
+
+        },
+        
+        {
             label: 'Home',
             command: () => {navigate('/') }
         },
