@@ -1,9 +1,9 @@
 import './App.css';
 import React from 'react'
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primereact/resources/themes/lara-light-indigo/theme.css";
-import "primereact/resources/primereact.min.css";
+import 'primereact/resources/themes/lara-light-indigo/theme.css';   // theme
+import 'primereact/resources/primereact.css';                       // core css
+import 'primeicons/primeicons.css';                                 // icons
+import 'primeflex/primeflex.css';
 import { Routes ,Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './pages/Home';
@@ -15,10 +15,12 @@ import Compte from './pages/Compte';
 import Banque from './pages/Banque';
 import Operation from './pages/Operation';
 import Banque1 from './pages/Banque1';
+
+
 function App() {
   return (
-    <div className="App">
-      <Header />
+    <>
+        <Header />
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/agence' element={<Agence />} />
@@ -29,10 +31,8 @@ function App() {
         <Route path='/banque' element={<Banque/>} />
         <Route path='/operation' element={<Operation/>} />
         <Route path='/banque1' element={<Banque1/>} />
-
-
-      </Routes>
-    </div>
+      </Routes> 
+        </>
   );
 }
 

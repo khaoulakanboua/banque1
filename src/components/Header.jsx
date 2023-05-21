@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Menubar } from 'primereact/menubar';
 import logo from "../assets/bank-logo.png"
 
@@ -9,61 +9,60 @@ export default function Header() {
 
     const items = [
         {
-            
-                    label: 'banques',
-                    icon: 'pi pi-fw pi-plus',
-                    items: [
-                        {
-                            label: 'By Numero de compte',
-                            command: () => {navigate('/banque') }
-                        },
-                        {
-                            label: 'By cin',
-                            command: () => {navigate('/banque1') }
-                        },
-
-                    ]
-
-        },
-        
-        {
             label: 'Home',
-            command: () => {navigate('/') }
+            command: () => { navigate('/') }
         },
         {
             label: 'Agence',
-            command: () => {navigate('/agence') }
+            command: () => { navigate('/agence') }
         },
         {
             label: 'Employe',
-            command: () => {navigate('/employe') }
+            command: () => { navigate('/employe') }
         },
         {
             label: 'Client',
-            command: () => {navigate('/client') }
+            command: () => { navigate('/client') }
         },
         {
             label: 'Ville',
-            command: () => {navigate('/ville') }
+            command: () => { navigate('/ville') }
         },
         {
             label: 'Compte',
-            command: () => {navigate('/compte') }
+            command: () => { navigate('/compte') }
         },
         {
             label: 'Banque',
-            command: () => {navigate('/banque') }
+            command: () => { navigate('/banque') }
+        },
+        {
+
+            label: 'banques',
+            icon: 'pi pi-fw pi-plus',
+            items: [
+                {
+                    label: 'By Num',
+                    command: () => { navigate('/banque') }
+                },
+                {
+                    label: 'By cin',
+                    command: () => { navigate('/banque1') }
+                },
+
+            ]
+
         },
         {
             label: 'Operation',
-            command: () => {navigate('/operation') }
+            command: () => { navigate('/operation') }
         },
 
     ];
     const style = {
         backgroundColor: 'rgba(245,243,246,0.88)',
         color: '#230202',
-        borderRadius:"20px",
+        borderRadius: "20px",
         justifyContent: 'left'
     };
 
@@ -82,7 +81,7 @@ export default function Header() {
     return (
         <div>
             <div className="card">
-                <Menubar  end={end} style={style}  model={items}  />
+                <Menubar end={end} style={style} model={items} />
 
             </div>
         </div>
