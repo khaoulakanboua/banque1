@@ -23,7 +23,7 @@ export default function Operation() {
   const [selectedAgence, setselectedAgence] = useState(null);
   //
 
- 
+
   // ALL
   const getVl = async () => {
     setLoad(true);
@@ -32,13 +32,13 @@ export default function Operation() {
       setVl(
         res.data.map((row) => ({
           id: row.id,
-          dtype:row.dtype,
+          dtype: row.dtype,
           code: row.code,
           date: row.date,
-          montant:row.montant,
-          compte:row.compte.numeroCompte,
-                 })
-                 )
+          montant: row.montant,
+          compte: row.compte.numeroCompte,
+        })
+        )
       );
       console.log(res.data);
       setVilles([...villes, vl]);
@@ -51,18 +51,18 @@ export default function Operation() {
     getVl();
   }, [upTB]);
 
- 
+
   // villes
 
   // select villes
   useEffect(() => {
     Compteservice.getAllCompte()
-    .then((res) => {
-      setAllV(res.data);
-    });
+      .then((res) => {
+        setAllV(res.data);
+      });
   }, []);
 
- 
+
   useEffect(() => {
     form.setFieldsValue({
       code: selectedAgence?.code,
@@ -77,15 +77,15 @@ export default function Operation() {
       key: "id",
     },
     {
-        title: "dtype",
-        dataIndex: "dtype",
-        key: "dtype",
-      },
+      title: "dtype",
+      dataIndex: "dtype",
+      key: "dtype",
+    },
     {
-        title: "code",
-        dataIndex: "code",
-        key: "code",
-      },
+      title: "code",
+      dataIndex: "code",
+      key: "code",
+    },
     {
       title: "date",
       dataIndex: "date",
@@ -106,7 +106,7 @@ export default function Operation() {
       })),
       onFilter: (value, record) => record.ville.indexOf(value) === 0,
     },
-    
+
   ];
   const onChange = (filters) => {
     console.log("params", filters.value);
@@ -115,7 +115,7 @@ export default function Operation() {
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
-       
+
       </Container>
 
       <Table
@@ -125,8 +125,8 @@ export default function Operation() {
         bordered
         onChange={onChange}
       />
-      
-       
+
+
     </ThemeProvider>
   );
 }

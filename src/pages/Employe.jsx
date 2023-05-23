@@ -28,7 +28,8 @@ export default function Employe() {
             email: data.get("email"),
             telephone: data.get("telephone"),
             dateNaissance: data.get("dateNaissance"),
-            matricule: data.get("matricule")
+            matricule: data.get("matricule"),
+            role: "EMPLOYEE"
         };
         if (!d.nom) {
             alert("agence vide !");
