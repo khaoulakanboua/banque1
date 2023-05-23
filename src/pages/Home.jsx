@@ -11,7 +11,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const clientResponse = await Clientervice.getByCin("EE11");
+        const clientResponse = await Clientervice.getByCin("EE43");
         setClient(clientResponse.data);
       } catch (error) {
         console.log(error);
