@@ -3,14 +3,20 @@ import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { Menubar } from 'primereact/menubar';
 import logo from "../assets/bank-logo.png"
+import { utilisateurService } from '../service/utilisateur.service';
 
 export default function Header() {
     const navigate = useNavigate();
 
+    const logout = () => {
+        utilisateurService.logout();
+        navigate('/');
+      };
+
     const items = [
         {
             label: 'Home',
-            command: () => { navigate('/') }
+            command: () => { logout()}
         },
         {
             label: 'Agence',
@@ -59,6 +65,55 @@ export default function Header() {
         },
 
     ];
+
+    const itemEmploye = [
+        {
+            label: 'Home',
+            command: () => { logout()}
+        },
+        {
+            label: 'Client',
+            command: () => { navigate('/app/client') }
+        },
+        {
+            label: 'Compte',
+            command: () => { navigate('/app/compte') }
+        },
+        {
+            label: 'Banque',
+            command: () => { navigate('/app/banque') }
+        },
+        {
+
+            label: 'banques',
+            icon: 'pi pi-fw pi-plus',
+            items: [
+                {
+                    label: 'By Num',
+                    command: () => { navigate('/app/banque') }
+                },
+                {
+                    label: 'By cin',
+                    command: () => { navigate('/app/banque1') }
+                },
+
+            ]
+
+        },
+        {
+            label: 'Operation',
+            command: () => { navigate('/app/operation') }
+        },
+
+    ];
+
+    const itemuser =[
+        {
+            label: 'Home',
+            command: () => { logout()}
+        },
+    ];
+
     const style = {
         backgroundColor: 'rgba(245,243,246,0.88)',
         color: '#230202',
@@ -81,8 +136,15 @@ export default function Header() {
     return (
         <div>
             <div className="card">
+            {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
                 <Menubar end={end} style={style} model={items} />
-
+            )}
+            {utilisateurService.isLogged && utilisateurService.getRole() === 'EMPLOYEE' &&(
+                <Menubar end={end} style={style} model={itemEmploye} />
+            )}
+             {utilisateurService.isLogged && utilisateurService.getRole() === 'USER' && (
+                <Menubar end={end} style={style} model={itemuser} />
+            )}
             </div>
         </div>
     );

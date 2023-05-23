@@ -29,19 +29,24 @@ export default function ProRoutes() {
                 {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
                 <Route path='Employe' element={<Employe />} />
                 )}
-                 {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
+                 {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE')
+                 && (
                 <Route path='Client' element={<Client />} />
                  )}
-                  {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
+                  {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE') 
+                  &&(
                 <Route path='Compte' element={<Compte />} />
                  )}
-                  {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
+                  {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE')
+                  && (
                 <Route path='Banque' element={<Banque />} />
                  )}
-                  {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
+                  {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE')
+                   && (
                 <Route path='Operation' element={<Operation />} />
                  )}
-                  {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
+                  {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE')
+                   && (
                 <Route path='Banque1' element={<Banque1 />} />
                  )}
             </Route>

@@ -29,7 +29,7 @@ export default function Register() {
       nom: data.get('nom'),
       email: data.get('email'),
       motDePasse: data.get('password'),
-      role : 'USER'
+      role : 'EMPLOYEE'
     }
     if(!d.prenom || !d.nom || !d.email || !d.motDePasse){
       alert("Champ vide !");
