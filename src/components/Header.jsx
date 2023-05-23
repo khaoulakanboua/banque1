@@ -14,27 +14,27 @@ export default function Header() {
         },
         {
             label: 'Agence',
-            command: () => { navigate('/agence') }
+            command: () => { navigate('/app/agence') }
         },
         {
             label: 'Employe',
-            command: () => { navigate('/employe') }
+            command: () => { navigate('/app/employe') }
         },
         {
             label: 'Client',
-            command: () => { navigate('/client') }
+            command: () => { navigate('/app/client') }
         },
         {
             label: 'Ville',
-            command: () => { navigate('/ville') }
+            command: () => { navigate('/app/ville') }
         },
         {
             label: 'Compte',
-            command: () => { navigate('/compte') }
+            command: () => { navigate('/app/compte') }
         },
         {
             label: 'Banque',
-            command: () => { navigate('/banque') }
+            command: () => { navigate('/app/banque') }
         },
         {
 
@@ -43,11 +43,11 @@ export default function Header() {
             items: [
                 {
                     label: 'By Num',
-                    command: () => { navigate('/banque') }
+                    command: () => { navigate('/app/banque') }
                 },
                 {
                     label: 'By cin',
-                    command: () => { navigate('/banque1') }
+                    command: () => { navigate('/app/banque1') }
                 },
 
             ]
@@ -55,7 +55,7 @@ export default function Header() {
         },
         {
             label: 'Operation',
-            command: () => { navigate('/operation') }
+            command: () => { navigate('/app/operation') }
         },
 
     ];

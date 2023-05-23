@@ -26,7 +26,6 @@ export default function ProRoutes() {
                  {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
                 <Route path="Agence" element={<Agence />} />
                  )}
-                <Route path='Agence' element={<Agence />} />
                 {utilisateurService.isLogged && utilisateurService.getRole() === 'ADMIN' && (
                 <Route path='Employe' element={<Employe />} />
                 )}
