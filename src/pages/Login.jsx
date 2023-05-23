@@ -12,18 +12,33 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { utilisateurService } from '../service/utilisateur.service';
+import { useNavigate } from 'react-router-dom';
 
 
 const defaultTheme = createTheme();
 
 export default function Login() {
+
+
+  const navigate = useNavigate();
+  
   const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+
+      event.preventDefault()
+      const data = new FormData(event.currentTarget);
+  
+      try{
+        utilisateurService.login(data.get("email"),data.get("password"))
+        .then(res => {
+            utilisateurService.saveToken(res.data.access_token)
+            utilisateurService.saveRole(res.data.role)
+          console.log(utilisateurService.getRole())
+            navigate('/app', {replace: true})
+        })
+      }catch(error){
+      console.log(error)
+      } 
   };
 
   return (

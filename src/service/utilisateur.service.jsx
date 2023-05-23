@@ -5,7 +5,7 @@ import jwt_decode from 'jwt-decode'
 let login = (emailL,passwordL) => {
     return Axios.post(`/api/auth/login`, {
         email: emailL,
-        password: passwordL
+        motDePasse: passwordL
       });
 }
 
