@@ -17,8 +17,11 @@ let DeleteClient = (id) =>{
     return Axios.delete(`/banque/clients/delete/${id}`)
 }
 
+let getByCin = (cin)=>{
+    return Axios.get(`/banque/clients?cin=${cin}`)
+}
 
 // Décaraltion des esrvices pour import
 export const Clientervice = {
-    getAllClient, AddClient ,DeleteClient ,UpdateClient
+    getAllClient, AddClient ,DeleteClient ,UpdateClient,getByCin
 }

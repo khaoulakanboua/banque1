@@ -17,8 +17,14 @@ let DeleteCompte = (id) =>{
     return Axios.delete(`/banque/comptes/delete/${id}`)
 }
 
+let getByNumCompte = (num)=>{
+    return Axios.get(`/banque/comptes?numeroCompte=${num}`)
+} 
 
+let getByClient = (c) =>{
+    return Axios.get(`/banque/comptes/client?id=${c}`);
+} 
 // Décaraltion des esrvices pour import
 export const Compteservice = {
-    getAllCompte, AddCompte ,DeleteCompte ,UpdateCompte
+    getAllCompte, AddCompte ,DeleteCompte ,UpdateCompte,getByNumCompte,getByClient
 }
