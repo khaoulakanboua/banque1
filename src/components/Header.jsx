@@ -8,23 +8,6 @@ export default function Header() {
     const navigate = useNavigate();
 
     const items = [
-        {
-            
-                    label: 'banques',
-                    icon: 'pi pi-fw pi-plus',
-                    items: [
-                        {
-                            label: 'By Numero de compte',
-                            command: () => {navigate('/banque') }
-                        },
-                        {
-                            label: 'By cin',
-                            command: () => {navigate('/banque1') }
-                        },
-
-                    ]
-
-        },
         
         {
             label: 'Home',
@@ -50,14 +33,27 @@ export default function Header() {
             label: 'Compte',
             command: () => {navigate('/compte') }
         },
-        {
-            label: 'Banque',
-            command: () => {navigate('/banque') }
-        },
+     
         {
             label: 'Operation',
             command: () => {navigate('/operation') }
-        },
+        }, {
+            
+            label: 'banques',
+            icon: 'pi pi-fw pi-plus',
+            items: [
+                {
+                    label: 'By Numero de compte',
+                    command: () => {navigate('/banque') }
+                },
+                {
+                    label: 'By cin',
+                    command: () => {navigate('/banque1') }
+                },
+
+            ]
+
+},
 
     ];
     const style = {
