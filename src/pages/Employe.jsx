@@ -1,5 +1,4 @@
 import React, { useEffect, useReducer, useState } from "react";
-import axios from "axios";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -20,16 +19,17 @@ export default function Employe() {
     const onSubmit = (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        var d = {
+        let d = {
             cin: data.get("cin"),
             nom: data.get("nom"),
             prenom: data.get("prenom"),
             adresse: data.get("adresse"),
             email: data.get("email"),
+            motDePasse:data.get("password"),
             telephone: data.get("telephone"),
             dateNaissance: data.get("dateNaissance"),
-            matricule: data.get("matricule"),
-            role: "EMPLOYEE"
+            role: "EMPLOYEE",
+            matricule: data.get("matricule")
         };
         if (!d.nom) {
             alert("agence vide !");
@@ -55,6 +55,7 @@ export default function Employe() {
                     email: row.email,
                     telephone: row.telephone,
                     dateNaissance: row.dateNaissance,
+                    role:row.role,
                     matricule: row.matricule
                 }))
             );
@@ -149,12 +150,11 @@ export default function Employe() {
     //
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
-    const [modalText, setModalText] = useState("Content of the modal");
     const [form] = Form.useForm();
     const [selectedEmp, setSelectedEmp] = useState(null);
 
     const updateEmployee = () => {
-        var d= {
+        let d= {
             id: selectedEmp.id,
             cin: form.getFieldValue("cin"),
             nom: form.getFieldValue("nom"),
@@ -191,7 +191,6 @@ export default function Employe() {
     };
 
     const handleSubmit = () => {
-        setModalText("The modal will be closed after one second");
         setConfirmLoading(true);
         updateEmployee();
         setTimeout(() => {
@@ -289,6 +288,17 @@ export default function Employe() {
                                             label="email"
                                             id="email"
                                             autoComplete="email"
+                                        />
+                                    </Grid>
+                                    <Grid item xs={12} sm={6}>
+                                        <TextField
+                                            margin="normal"
+                                            required
+                                            fullWidth
+                                            name="password"
+                                            label="password"
+                                            id="password"
+                                            autoComplete="password"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
