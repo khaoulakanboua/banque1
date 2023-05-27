@@ -68,7 +68,7 @@ export default function Header() {
 
     const itemEmploye = [
         {
-            label: 'Home',
+            label: 'Logout',
             command: () => { logout()}
         },
         {
@@ -103,13 +103,16 @@ export default function Header() {
         {
             label: 'Operation',
             command: () => { navigate('/app/operation') }
+        },{
+            label: 'Home',
+            command: () => { navigate('/app') }
         },
 
     ];
 
     const itemuser =[
         {
-            label: 'Home',
+            label: 'Logout',
             command: () => { logout()}
         },
     ];

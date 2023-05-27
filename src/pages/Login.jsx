@@ -29,10 +29,12 @@ export default function Login() {
       const data = new FormData(event.currentTarget);
   
       try{
-        utilisateurService.login(data.get("email"),data.get("password"))
+        utilisateurService.login(data.get("email"),data.get("password"),data.get("id"))
         .then(res => {
+          console.log(res.data)
             utilisateurService.saveToken(res.data.access_token)
             utilisateurService.saveRole(res.data.role)
+            utilisateurService.saveId(res.data.id)
           console.log(utilisateurService.getRole())
             navigate('/app', {replace: true})
         })

@@ -45,7 +45,14 @@ let saveRole = (role) =>{
 let getRole = () => {
     return localStorage.getItem('role')
 }
-
-export const utilisateurService = {
-    login, register, saveToken, logout, isLogged, getToken, getTokenInfo ,saveRole,getRole
+let saveId = (id) =>{
+    localStorage.setItem('id', id)
 }
+
+let getId = () =>{
+    localStorage.getItem('id')
+}
+export const utilisateurService = {
+    login, register, saveToken, logout, isLogged, getToken, getTokenInfo ,saveRole,getRole,saveId,getId
+}
+
