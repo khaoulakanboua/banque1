@@ -8,13 +8,11 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { InputLabel } from "@mui/material";
 import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
-import { FormControlLabel } from '@mui/material';
 import { Compteservice } from "../service/compte.service";
 import { Agenceservice } from "../service/agence.service";
 import { Clientervice } from "../service/client.service";
@@ -49,7 +47,7 @@ export default function Compte() {
   const onSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    var d = {
+    let d = {
         numeroCompte: data.get("numeroCompte"),
       solde: data.get("solde"),
       agence: {
@@ -294,30 +292,26 @@ export default function Compte() {
               autoFocus
             />
             <FormControl fullWidth style={{ marginTop: 17 }}>
-              <InputLabel id="demo-simple-select-label">Agence</InputLabel>
+              <InputLabel>Agence</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
                 value={vl}
                 label="agences"
                 onChange={handleChange}
               >
                 {allV?.map((item) => (
-                  <MenuItem value={item.id}>{item.adresse}</MenuItem>
+                  <MenuItem key={item.id} value={item.id}>{item.adresse}</MenuItem>
                 ))}
               </Select>
             </FormControl>
             <FormControl fullWidth style={{ marginTop: 17 }}>
-              <InputLabel id="demo-simple-select-label">Client</InputLabel>
+              <InputLabel>Client</InputLabel>
               <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
                 value={vl}
                 label="clients"
                 onChange={handleChange1}
               >
                 {allC?.map((item) => (
-                  <MenuItem value={item.id}>{item.nom}</MenuItem>
+                  <MenuItem key={item.id} value={item.id}>{item.nom}</MenuItem>
                 ))}
               </Select>
             </FormControl>
@@ -397,30 +391,26 @@ export default function Compte() {
             <Input />
           </Form.Item>
 
-          <InputLabel id="demo-simple-select-label">Agence</InputLabel>
+          <InputLabel>Agence</InputLabel>
           <Select
             fullWidth
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={selectedAgence?.agence}
             label="villes"
             onChange={ModalhandleChange}
           >
             {allV?.map((item) => (
-              <MenuItem value={item.id}>{item.adresse}</MenuItem>
+              <MenuItem key={item.id} value={item.id}>{item.adresse}</MenuItem>
             ))}
           </Select>
-          <InputLabel id="demo-simple-select-label">Client</InputLabel>
+          <InputLabel>Client</InputLabel>
           <Select
             fullWidth
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
             value={selectedAgence?.client}
             label="villes"
             onChange={ModalhandleChange1}
           >
             {allC?.map((item) => (
-              <MenuItem value={item.id}>{item.nom}</MenuItem>
+              <MenuItem key={item.id} value={item.id}>{item.nom}</MenuItem>
             ))}
           </Select>
 
