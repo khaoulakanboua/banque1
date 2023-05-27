@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import { Button, Img, Input, Line, List, Text } from "../components";
 import { Clientervice } from "../service/client.service";
 import { Compteservice } from "../service/compte.service";
-
+import { utilisateurService } from "../service/utilisateur.service";
+import { Column } from 'primereact/column';
+import { DataTable } from 'primereact/datatable';
+import { Operationservice } from "../service/operation.service";
 
 const Home = () => {
   const [client, setClient] = useState(null)
   const [compte, setCompte] = useState(null)
+  const[operations,setOperations]=useState(null)
   const [id, setId] = useState(null)
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const clientResponse = await Clientervice.getByCin("EE43");
+        console.log()
+
+        const clientResponse = await Clientervice.getByEmail(utilisateurService.getTokenInfo().sub);
         setClient(clientResponse.data);
       } catch (error) {
         console.log(error);
@@ -43,7 +49,9 @@ const Home = () => {
     fetchDataCompte();
   }, [id]);
 
-
+  useEffect(() => {
+    Operationservice.getAllOperation().then((res)=> setOperations(res.data))
+}, []);
 
 
 
@@ -247,127 +255,25 @@ const Home = () => {
               </div>
             </div>
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
-              <div className="flex md:flex-1 flex-col gap-[18px] items-start justify-start w-[66%] md:w-full">
-                <Text className="text-bluegray_900" as="h3" variant="h3">
-                  Weekly Activity
-                </Text>
-                <div className="bg-white_A700 flex flex-col gap-[22px] items-end justify-start p-7 sm:px-5 rounded-[25px] w-full">
-                  <div className="flex flex-row gap-[30px] items-center justify-end w-[30%] md:w-full">
-                    <div className="flex flex-row gap-2.5 items-start justify-start w-[38%]">
-                      <div className="bg-indigo_200 h-[15px] rounded-[50%] w-[15px]"></div>
-                      <Text
-                        className="font-normal text-bluegray_400"
-                        variant="body2"
-                      >
-                        Diposit
-                      </Text>
-                    </div>
-                    <div className="flex flex-row gap-2.5 items-start justify-start w-[47%]">
-                      <div className="bg-indigo_600 h-[15px] rounded-[50%] w-[15px]"></div>
-                      <Text
-                        className="font-normal text-bluegray_400"
-                        variant="body2"
-                      >
-                        Withdraw
-                      </Text>
-                    </div>
-                  </div>
-                  <div className="flex flex-col items-center justify-start mr-0.5 w-[99%] md:w-full">
-                    <div className="flex flex-col gap-[9px] justify-start w-full">
-                      <div className="flex md:flex-col flex-row gap-2.5 items-center justify-between w-full">
-                        <div className="flex flex-col gap-[21px] items-start justify-start">
-                          <Text
-                            className="font-normal text-bluegray_400"
-                            variant="body4"
-                          >
-                            500
-                          </Text>
-                          <Text
-                            className="font-normal text-bluegray_400"
-                            variant="body4"
-                          >
-                            400
-                          </Text>
-                          <Text
-                            className="font-normal text-bluegray_400"
-                            variant="body4"
-                          >
-                            300
-                          </Text>
-                          <Text
-                            className="font-normal text-bluegray_400"
-                            variant="body4"
-                          >
-                            200
-                          </Text>
-                          <Text
-                            className="font-normal text-bluegray_400"
-                            variant="body4"
-                          >
-                            100
-                          </Text>
-                          <Text
-                            className="font-normal ml-3.5 md:ml-[0] text-bluegray_400"
-                            variant="body4"
-                          >
-                            0
-                          </Text>
-                        </div>
-                        <Img
-                          src="images/img_group899.svg"
-                          className="h-[186px]"
-                          alt="Group899"
+            <div className="col-12 xl:col-6">
+                <div className="card">
+                    <h5>Recent Sales</h5>
+                    <DataTable value={operations} rows={5} paginator responsiveLayout="scroll">
+                        <Column field="montant" header="montant" sortable style={{ width: '35%' }} />
+                        <Column field="date" header="date" sortable style={{ width: '35%' }} />
+                        <Column
+                            header="View"
+                            style={{ width: '15%' }}
+                            body={() => (
+                                <>
+                                    <Button icon="pi pi-search" type="button" text />
+                                </>
+                            )}
                         />
-                      </div>
-                      <div className="flex sm:flex-col flex-row sm:gap-5 items-center justify-end md:ml-[0] ml-[72px] w-[84%] md:w-full">
-                        <Text
-                          className="font-normal text-bluegray_400"
-                          variant="body4"
-                        >
-                          Sat
-                        </Text>
-                        <Text
-                          className="font-normal sm:ml-[0] ml-[67px] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Sun
-                        </Text>
-                        <Text
-                          className="font-normal sm:ml-[0] ml-[65px] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Mon
-                        </Text>
-                        <Text
-                          className="font-normal sm:ml-[0] ml-[65px] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Tue
-                        </Text>
-                        <Text
-                          className="font-normal ml-16 sm:ml-[0] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Wed
-                        </Text>
-                        <Text
-                          className="font-normal ml-16 sm:ml-[0] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Thu
-                        </Text>
-                        <Text
-                          className="font-normal h-4 sm:ml-[0] ml-[70px] text-bluegray_400"
-                          variant="body4"
-                        >
-                          Fri
-                        </Text>
-                      </div>
-                    </div>
-                  </div>
+                    </DataTable>
                 </div>
-              </div>
-            </div>
+                </div>
+           </div>
           </div>
         </div>
       </div>

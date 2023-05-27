@@ -16,6 +16,7 @@ import { Table, Space, Popconfirm, Modal, Form, Input } from "antd";
 import { Compteservice } from "../service/compte.service";
 import { Agenceservice } from "../service/agence.service";
 import { Clientervice } from "../service/client.service";
+import { utilisateurService } from "../service/utilisateur.service";
 
 const theme = createTheme();
 
@@ -44,11 +45,11 @@ export default function Compte() {
   //
 
   // SAVE
-  const onSubmit = (event) => {
+  const onSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     let d = {
-        numeroCompte: data.get("numeroCompte"),
+      numeroCompte: data.get("numeroCompte"),
       solde: data.get("solde"),
       agence: {
         id: v,
@@ -57,15 +58,27 @@ export default function Compte() {
         id: c,
       },
     };
+  
     if (!d) {
       alert("Compte vide !");
     } else {
-     Compteservice.AddCompte(d)
-      .then(() => {
-        forceUpdate(); // rel
-      });
+      try {
+        console.log(utilisateurService.getRole());
+        await Compteservice.AddCompte(d)
+       
+      } catch (error) {
+        if (error.response && error.response.status === 403) {
+          // Ignoring the 403 Forbidden error
+          console.log('Request failed with status code 403 - Forbidden');
+        } else {
+          // Handle other errors
+          console.log('Error:', error);
+        }
+      }
     }
+    forceUpdate(); // re-render or update state
   };
+  
 
   // ALL
   const getVl = async () => {
@@ -391,20 +404,24 @@ export default function Compte() {
             <Input />
           </Form.Item>
 
-          <InputLabel>Agence</InputLabel>
+          <InputLabel id="demo-simple-select-label">Agence</InputLabel>
           <Select
             fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
             value={selectedAgence?.agence}
             label="villes"
             onChange={ModalhandleChange}
           >
             {allV?.map((item) => (
-              <MenuItem key={item.id} value={item.id}>{item.adresse}</MenuItem>
+              <MenuItem  key={item.id}value={item.id}>{item.adresse}</MenuItem>
             ))}
           </Select>
-          <InputLabel>Client</InputLabel>
+          <InputLabel id="demo-simple-select-label">Client</InputLabel>
           <Select
             fullWidth
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
             value={selectedAgence?.client}
             label="villes"
             onChange={ModalhandleChange1}
