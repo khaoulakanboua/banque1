@@ -51,9 +51,33 @@ let saveId = (id) =>{
 }
 
 let getId = () =>{
-    localStorage.getItem('id')
+   return localStorage.getItem('id')
 }
+let saveCin = (cin) =>{
+    localStorage.setItem('cin', cin)
+}
+
+let getCin = () =>{
+   return localStorage.getItem('cin')
+}
+let saveNom = (nom) =>{
+    localStorage.setItem('nom', nom)
+}
+
+let getNom = () =>{
+   return localStorage.getItem('nom')
+}
+let savePrenom = (prenom) =>{
+    localStorage.setItem('prenom', prenom)
+}
+
+let getPrenom = () =>{
+   return localStorage.getItem('prenom')
+}
+
+
+
 export const utilisateurService = {
-    login, register, saveToken, logout, isLogged, getToken, getTokenInfo ,saveRole,getRole,saveId,getId
+    login, register, saveToken, logout, isLogged, getToken, getTokenInfo ,saveRole,getRole,saveId,getId,saveCin,getCin,saveNom,getNom,savePrenom,getPrenom
 }
 

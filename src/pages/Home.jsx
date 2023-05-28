@@ -6,52 +6,74 @@ import { utilisateurService } from "../service/utilisateur.service";
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Operationservice } from "../service/operation.service";
+import axios from 'axios'
+import QRCode from 'qrcode.react';
+
+
 
 const Home = () => {
-  const [client, setClient] = useState(null)
-  const [compte, setCompte] = useState(null)
-  const[operations,setOperations]=useState(null)
-  const [id, setId] = useState(null)
+  const [client, setClient] = useState(null);
+  const [compte, setCompte] = useState(null);
+  const [operations, setOperations] = useState(null);
+  const [id, setId] = useState(null);
+  
+  const [numeroCompte, setnumeroCompte] = useState(null);
+
+   
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log()
-
-        const clientResponse = await Clientervice.getByEmail(utilisateurService.getTokenInfo().sub);
+        const clientResponse = await Clientervice.getByEmail(utilisateurService.getId());
         setClient(clientResponse.data);
+        console.log(clientResponse.data);
+        //console.log(utilisateurService.getId());
+        console.log(utilisateurService.getNom());
+        console.log(utilisateurService.getPrenom());
+        console.log(utilisateurService.getCin());
+
+
       } catch (error) {
         console.log(error);
-      } finally {
-        setId(client?.id)
-        console.log(id)
       }
     };
+
     fetchData();
   }, []);
+
   useEffect(() => {
     if (client) {
       setId(client.id);
     }
   }, [client]);
-
-  useEffect(() => {
-    const fetchDataCompte = async () => {
-      if (id) {
-        try {
-          const compteResponse = await Compteservice.getByClient(id);
-          setCompte(compteResponse.data);
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    };
+ 
   
-    fetchDataCompte();
-  }, [id]);
-
+  const fetchDataCompte = async () => {
+    if (utilisateurService.getId()) {
+      try {
+        const compteResponse = await Compteservice.getByClient(utilisateurService.getId());
+        setCompte(compteResponse.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  
   useEffect(() => {
-    Operationservice.getAllOperation().then((res)=> setOperations(res.data))
-}, []);
+    fetchDataCompte();
+
+  }, []);
+  
+  useEffect(() => {
+    if (compte) {
+      setId(compte.id);
+      setnumeroCompte(compte.numeroCompte);
+    }
+  }, [compte]);
+  
+  useEffect(() => {
+    Operationservice.getAllOperation().then((res) => setOperations(res.data));
+  }, []);
+  
 
 
 
@@ -65,7 +87,11 @@ const Home = () => {
                 <div className="flex flex-col gap-5 items-center justify-start w-full">
                   <div className="flex flex-row sm:gap-10 items-center justify-between w-full">
                     <Text className="text-bluegray_900" as="h3" variant="h3">
-                      My Card
+                      My Card  <Text className="text-bluegray_900" variant="body2">
+      </Text>
+      
+
+      
                     </Text>
                   </div>
                   <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
@@ -105,7 +131,7 @@ const Home = () => {
                               className="font-normal mt-1 text-white_A700"
                               variant="body2"
                             >
-                              {client?.nom} {client?.prenom}
+                              {utilisateurService.getNom()} {utilisateurService.getPrenom()}
                             </Text>
                           </div>
                           <div className="flex flex-col items-start justify-start">
@@ -169,7 +195,7 @@ const Home = () => {
                         className="font-medium text-bluegray_600"
                         variant="body1"
                       >
-                        Deposit from my Card
+                        Deposit from my Card (Virement)
                       </Text>
                       <Text
                         className="font-normal text-bluegray_400"
@@ -273,9 +299,19 @@ const Home = () => {
                     </DataTable>
                 </div>
                 </div>
+                <div className="flex md:flex-1 flex-col gap-5 items-start justify-start w-[32%] md:w-full">
+  <Text className="text-bluegray_900" as="h3" variant="h3">
+    Scan your QR Code
+  </Text>
+  {/* Render the QR code */}
+  <QRCode value={`NOM: ${utilisateurService.getNom()} Prenom: ${utilisateurService.getPrenom()}  Numero Compte:${compte?.numeroCompte}`} />
+</div>
            </div>
+           
+
           </div>
         </div>
+        
       </div>
     </>
   );

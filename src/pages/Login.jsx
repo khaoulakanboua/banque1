@@ -29,13 +29,21 @@ export default function Login() {
       const data = new FormData(event.currentTarget);
   
       try{
-        utilisateurService.login(data.get("email"),data.get("password"),data.get("id"))
+        utilisateurService.login(data.get("email"),data.get("password"))
         .then(res => {
-          console.log(res.data)
+          //console.log(res.data.id)
             utilisateurService.saveToken(res.data.access_token)
             utilisateurService.saveRole(res.data.role)
             utilisateurService.saveId(res.data.id)
-          console.log(utilisateurService.getRole())
+            utilisateurService.saveNom(res.data.nom)
+            utilisateurService.savePrenom(res.data.prenom)
+            console.log(utilisateurService.getCin());
+
+            utilisateurService.saveCin(res.data.cin)
+
+           // console.log(utilisateurService.getId())
+           // console.log(utilisateurService.getEmail())
+          //console.log(utilisateurService.getRole())
             navigate('/app', {replace: true})
         })
       }catch(error){
