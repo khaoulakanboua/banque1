@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Img, Input, Line, List, Text } from "../components";
 import { Clientervice } from "../service/client.service";
 import { Compteservice } from "../service/compte.service";
+import { Operationservice } from "../service/operation.service";
 import { utilisateurService } from "../service/utilisateur.service";
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { Operationservice } from "../service/operation.service";
 import axios from 'axios'
 import QRCode from 'qrcode.react';
 
@@ -16,6 +16,8 @@ const Home = () => {
   const [compte, setCompte] = useState(null);
   const [operations, setOperations] = useState(null);
   const [id, setId] = useState(null);
+  const [idO, setIdO] = useState(null);
+
   
   const [numeroCompte, setnumeroCompte] = useState(null);
 
@@ -74,7 +76,31 @@ const Home = () => {
     Operationservice.getAllOperation().then((res) => setOperations(res.data));
   }, []);
   
+  const fetchDataOperation = async () => {
+    if (utilisateurService.getId()) {
+      try {
+        const operationResponse = await Operationservice.getByCompte(utilisateurService.getId());
+        setOperations(operationResponse.data);
+        
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+  
+  useEffect(() => {
+    fetchDataOperation();
+    console.log(operations)
 
+  }, []);
+  
+  useEffect(() => {
+    if (operations) {
+      setIdO(operations.id);
+
+      //setnumeroCompte(compte.numeroCompte);
+    }
+  }, [operations]);
 
 
   return (

@@ -103,56 +103,9 @@ export default function Operation() {
       title: "date",
       dataIndex: "date",
       key: "date",
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
-        <div style={{ padding: 8 }}>
-          <DatePicker
-            value={dateFilter}
-            onChange={(dateFilter) => {
-              // Ensure the date value is a moment object
-              const momentDate = dateFilter ? dateFilter : null;
-              console.log(momentDate); // Log the selected date
-
-              setDateFilter(momentDate);
-            }}
-            style={{ marginBottom: 8, display: "block" }}
-          />
-           <Space>
-            <Button
-              type="primary"
-              onClick={() => {
-                setDateFilter(dateFilter ? [dateFilter] : []);
-                confirm(); // Use confirm function from the parameter
-              }}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Filter
-            </Button>
-            <Button
-              onClick={() => {
-                setDateFilter([]);
-                clearFilters(); // Use clearFilters function from the parameter
-              }}
-              size="small"
-              style={{ width: 90 }}
-            >
-              Reset
-            </Button>
-          </Space>
-        </div>
-      ),
-      filterIcon: (filtered) => (
-        <SearchOutlined style={{ color: filtered ? "#1890ff" : undefined }} />
-      ),
-      onFilter: (value, record) => {
-        const recordDate = moment(record.date, "YYYY-MM-DD");
-        return value ? recordDate.isSame(value, "day") : true;
       },
-      render: (text) => {
-        const dateObj = moment(text);
-        return dateObj.isValid() ? dateObj.format("YYYY-MM-DD") : "";
-      },
-    },
+     
+  
     
     {
       title: "montant",
@@ -163,11 +116,7 @@ export default function Operation() {
       title: "compte",
       dataIndex: "compte",
       key: "compte",
-      filters: allV.map((v) => ({
-        text: v.numeroCompte,
-        value: v.numeroCompte,
-      })),
-      onFilter: (value, record) => record.compte.indexOf(value) === 0,
+    
     },
   ];
 
