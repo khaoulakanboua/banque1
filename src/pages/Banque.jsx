@@ -39,7 +39,6 @@ export default function Banque() {
   const saveProduct1 = () => {
     if (!montant || !compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
     } else{
       console.log(montant, compte.numeroCompte)
       Banqueservice.retraitByNumeroCompte(compte, montant)
