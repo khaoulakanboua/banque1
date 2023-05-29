@@ -11,7 +11,6 @@ import Compte from '../pages/Compte';
 import Banque from '../pages/Banque';
 import Operation from '../pages/Operation';
 import Banque1 from '../pages/Banque1';
-import PersonalProfile from '../pages/Profile';
 
 export default function ProRoutes() {
   return (
@@ -50,15 +49,6 @@ export default function ProRoutes() {
                    && (
                 <Route path='Banque1' element={<Banque1 />} />
                  )}
-
-                {utilisateurService.isLogged && (utilisateurService.getRole() === 'ADMIN' || utilisateurService.getRole() === 'EMPLOYEE' || utilisateurService.getRole() === 'USER')
-                   && (
-                <Route path='Profile' element={<PersonalProfile />} />  
-                 )}
-
-                 
-
-
             </Route>
         </Routes>
         </div>
