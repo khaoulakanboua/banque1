@@ -72,9 +72,7 @@ const Home = () => {
     }
   }, [compte]);
   
-  useEffect(() => {
-    Operationservice.getAllOperation().then((res) => setOperations(res.data));
-  }, []);
+ 
   
   const fetchDataOperation = async () => {
     if (utilisateurService.getId()) {

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef ,useEffect} from 'react';
 import { Button } from 'primereact/button';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { InputNumber } from 'primereact/inputnumber';
@@ -32,7 +32,7 @@ export default function Banque() {
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
-          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Depot done', life: 2000 });
         })
     }
   };
@@ -40,12 +40,17 @@ export default function Banque() {
     if (!montant || !compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
 
+    }else if(Banqueservice.getSoldeByCompte(compte.numeroCompte)<montant){
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'solde', life: 3000 });
+      
+
     } else{
       console.log(montant, compte.numeroCompte)
       Banqueservice.retraitByNumeroCompte(compte, montant)
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
+
           toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
         })
     }
@@ -61,26 +66,29 @@ export default function Banque() {
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
-          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Virement done', life: 2000 });
         })
     }
   };
   const saveProduct3 = () => {
     if (!compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-    } else {
+    } else{
       Banqueservice.getSoldeByCompte(compte.numeroCompte)
         .then((response) => {
           setSolde(response.data);
+          console.log(solde)
           setSubmitted(true);
           setBanqueDialog(false);
-          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Depot done', life: 2000 });
         })
         .catch((error) => {
           console.error('Error:', error);
         });
     }
+    
   };
+  
   
   const hideDialog = () => {
     setSubmitted(false);
@@ -175,7 +183,7 @@ export default function Banque() {
                   <label htmlFor="montant" className="font-bold">
                     Price
                   </label>
-                  <InputNumber id="montant" value={montant} onValueChange={(e) => onInputNumberChange(e, 'montant')} required mode="currency" currency="MAD" locale="en-US" />
+                  <InputNumber id="montant" value={montant} onValueChange={(e) => setMontant(e.target.value)} required mode="currency" currency="MAD" locale="en-US" />
                 </div>
               </div>
 
