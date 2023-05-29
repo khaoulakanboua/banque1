@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useRef } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { utilisateurService } from '../service/utilisateur.service';
 import { useNavigate } from 'react-router-dom';
-
+import { Toast } from 'primereact/toast';
 
 const defaultTheme = createTheme();
 
@@ -22,37 +22,35 @@ export default function Login() {
 
 
   const navigate = useNavigate();
-  
-  const handleSubmit = (event) => {
+  const toast = useRef(null);
 
-      event.preventDefault()
-      const data = new FormData(event.currentTarget);
-  
-      try{
-        utilisateurService.login(data.get("email"),data.get("password"))
-        .then(res => {
-          //console.log(res.data.id)
-            utilisateurService.saveToken(res.data.access_token)
-            utilisateurService.saveRole(res.data.role)
-            utilisateurService.saveId(res.data.id)
-            utilisateurService.saveNom(res.data.nom)
-            utilisateurService.savePrenom(res.data.prenom)
-            console.log(utilisateurService.getCin());
 
-            utilisateurService.saveCin(res.data.cin)
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const data = new FormData(e.currentTarget);
 
-           // console.log(utilisateurService.getId())
-           // console.log(utilisateurService.getEmail())
-          //console.log(utilisateurService.getRole())
-            navigate('/app', {replace: true})
-        })
-      }catch(error){
-      console.log(error)
-      } 
-  };
-
+    if (data.get("email") && data.get("password")) {
+      try {
+        const res = await utilisateurService.login(data.get("email"),data.get("password"))
+        utilisateurService.saveToken(res.data.access_token)
+        utilisateurService.saveRole(res.data.role)
+        console.log(utilisateurService.getRole())
+        navigate('/app', { replace: true })
+      } catch (error) {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: ' Email or password Invalid!',
+          life: 3000
+        });
+      }
+    } else {
+      toast.current.show({ severity: 'error', summary: 'Error', detail: 'champ vide !', life: 3000 });
+    }
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
+          <Toast ref={toast} />
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

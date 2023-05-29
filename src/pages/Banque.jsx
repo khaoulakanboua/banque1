@@ -14,7 +14,7 @@ export default function Banque() {
   const [submitted, setSubmitted] = useState(false);
   const [montant, setMontant] = useState();
   const [solde, setSolde] = useState(0);
-  
+
 
   const toast = useRef(null);
   let retrait = {
@@ -39,7 +39,7 @@ export default function Banque() {
   const saveProduct1 = () => {
     if (!montant || !compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-    } else{
+    } else {
       console.log(montant, compte.numeroCompte)
       Banqueservice.retraitByNumeroCompte(compte, montant)
         .then(() => {
@@ -54,8 +54,8 @@ export default function Banque() {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
 
     } else {
-     // console.log(montant, compte.compteEnvoie,compte.compteRecoit)
-      Banqueservice.viremantBetweenClientByNumeroCompte(compte.compteEnvoie,compte.compteRecoit, montant)
+      // console.log(montant, compte.compteEnvoie,compte.compteRecoit)
+      Banqueservice.viremantBetweenClientByNumeroCompte(compte.compteEnvoie, compte.compteRecoit, montant)
 
         .then(() => {
           setSubmitted(true);
@@ -80,7 +80,7 @@ export default function Banque() {
         });
     }
   };
-  
+
   const hideDialog = () => {
     setSubmitted(false);
     setBanqueDialog(false);
@@ -212,21 +212,21 @@ export default function Banque() {
             </Dialog>
           </div>
         </TabPanel>
-  <div className="card flex justify-content-center">
-    <Button label="Show" icon="pi pi-external-link" onClick={() => setBanqueDialog(true)} />
-    <Dialog visible={banqueDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Solde : " modal className="p-fluid" footer={banqueDialogFooter3} onHide={hideDialog}>
-      <div className="field">
-        <label htmlFor="numeroCompte" className="font-bold">
-          Num compte :
-        </label>
-        <InputText id="numeroCompte" value={compte.numeroCompte} onChange={(e) => onInputChange(e, 'numeroCompte')} required rows={3} cols={20} />
-        {submitted && !compte.numeroCompte && <small className="p-error">Numero de compte vide!</small>}
-      </div>
-      <div>
-        <h2>Solde: {solde}</h2>
-      </div>
-    </Dialog>
-  </div>
+        <div className="card flex justify-content-center">
+          <Button label="Show" icon="pi pi-external-link" onClick={() => setBanqueDialog(true)} />
+          <Dialog visible={banqueDialog} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Solde : " modal className="p-fluid" footer={banqueDialogFooter3} onHide={hideDialog}>
+            <div className="field">
+              <label htmlFor="numeroCompte" className="font-bold">
+                Num compte :
+              </label>
+              <InputText id="numeroCompte" value={compte.numeroCompte} onChange={(e) => onInputChange(e, 'numeroCompte')} required rows={3} cols={20} />
+              {submitted && !compte.numeroCompte && <small className="p-error">Numero de compte vide!</small>}
+            </div>
+            <div>
+              <h2>Solde: {solde}</h2>
+            </div>
+          </Dialog>
+        </div>
 
       </TabView>
     </div>
