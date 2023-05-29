@@ -15,7 +15,7 @@ export default function Header() {
 
     const items = [
         {
-            label: 'Home',
+            label: 'Logout',
             command: () => { logout()}
         },
         {
@@ -39,10 +39,6 @@ export default function Header() {
             command: () => { navigate('/app/compte') }
         },
         {
-            label: 'Banque',
-            command: () => { navigate('/app/banque') }
-        },
-        {
 
             label: 'banques',
             icon: 'pi pi-fw pi-plus',
@@ -63,7 +59,11 @@ export default function Header() {
             label: 'Operation',
             command: () => { navigate('/app/operation') }
         },
-
+        {
+            label: 'Profile',
+            command: () => { navigate('/app/Profile') }
+        },
+        
     ];
 
     const itemEmploye = [
@@ -103,18 +103,23 @@ export default function Header() {
         {
             label: 'Operation',
             command: () => { navigate('/app/operation') }
-        },{
-            label: 'Home',
-            command: () => { navigate('/app') }
         },
-
+        {
+            label: 'Profile',
+            command: () => { navigate('/app/Profile') }
+        },
+        
     ];
 
     const itemuser =[
         {
             label: 'Logout',
             command: () => { logout()}
+        }, {
+            label: 'Profile',
+            command: () => { navigate('/app/Profile') }
         },
+        
     ];
 
     const style = {

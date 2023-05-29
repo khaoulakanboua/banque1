@@ -14,7 +14,11 @@ export default function Client() {
     const [loading, setLoad] = useState(false);
     const [emp, setEmp] = useState();
     const [upTB, forceUpdate] = useReducer((x) => x + 1, 0); // reaload tb
-
+    const [text, setText] = useState("");
+    const [isValid, setIsValid] = useState(true);
+    const [isValid1, setIsValid1] = useState(true);
+  
+    const [text1, setText1] = useState("");
     // SAVE
     const onSubmit = (event) => {
         event.preventDefault();
@@ -190,7 +194,32 @@ export default function Client() {
             setOpen(false);
         }, 1000);
     };
+    const handleKeyPress = (event) => {
+        const charCode = event.which || event.keyCode;
+        if (charCode >= 48 && charCode <= 57) {
+          event.preventDefault();
+        }
+      };
+      const handleKeyPress1 = (event) => {
+        const charCode = event.which || event.keyCode;
+        if (charCode >= 48 && charCode <= 57) {
+          event.preventDefault();
+          setIsValid(false);
+        } else {
+          setIsValid(true);
+        }
+      };
 
+      const handleKeyPress2 = (event) => {
+        const charCode = event.which || event.keyCode;
+        if (charCode >= 48 && charCode <= 57) {
+          event.preventDefault();
+          setIsValid1(false);
+        } else {
+          setIsValid1(true);
+        }
+      };
+      
     useEffect(() => {
         console.log("Selected Ville after update: ", selectedEmp);
     }, [selectedEmp]);
@@ -205,6 +234,12 @@ export default function Client() {
             dateNaissance: selectedEmp?.dateNaissance
         });
     }, [selectedEmp, form]);
+    const handleChange4 = (event) => {
+        setText(event.target.value);
+      };
+      const handleChange5 = (event) => {
+        setText1(event.target.value);
+      };
     return (
         <Container component="main" maxWidth="lg">
             <Card sx={{ marginTop: 3 }} >
@@ -245,6 +280,11 @@ export default function Client() {
                                             label="nom"
                                             id="nom"
                                             autoComplete="nom"
+                                            onChange={handleChange4}
+                                            onKeyPress={handleKeyPress1}
+                                            error={!isValid}
+                                            helperText={!isValid ? "Veuillez entrer uniquement des caractères non numériques." : ""}
+
                                         />
                                     </Grid>
 
@@ -257,6 +297,12 @@ export default function Client() {
                                             label="prenom"
                                             id="prenom"
                                             autoComplete="prenom"
+                                            onChange={handleChange5}
+                                            onKeyPress={handleKeyPress2}
+                                            error={!isValid1}
+                                            helperText={!isValid1 ? "Veuillez entrer uniquement des caractères non numériques." : ""}
+
+
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -279,6 +325,7 @@ export default function Client() {
                                             label="email"
                                             id="email"
                                             autoComplete="email"
+                                            type="email"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>

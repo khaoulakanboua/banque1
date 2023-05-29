@@ -33,6 +33,8 @@ export default function Compte() {
 
   const [v, setV] = useState("");
   const [c, setC] = useState("");
+  const [text, setText] = useState("");
+  const [isValid, setIsValid] = useState(true);
 
   //modal
   const [open, setOpen] = useState(false);
@@ -79,6 +81,19 @@ export default function Compte() {
     forceUpdate(); // re-render or update state
   };
   
+  const handleKeyPress = (event) => {
+    const charCode = event.which || event.keyCode;
+    if ((charCode < 48 || charCode > 57) && charCode !== 46) {
+      event.preventDefault();
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
+  
+
+
+
 
   // ALL
   const getVl = async () => {
@@ -134,7 +149,9 @@ export default function Compte() {
     });
   }, []);
 
-
+  const handleChange4 = (event) => {
+    setText(event.target.value);
+  };
   const handleChange = (event) => {
     console.log(event.target.value)
     setV(event.target.value);
@@ -303,7 +320,13 @@ export default function Compte() {
               label="solde"
               id="solde"
               autoFocus
+              value={text}
+          onChange={handleChange4}
+          onKeyPress={handleKeyPress}
+          error={!isValid}
+          helperText={!isValid ? "Veuillez entrer uniquement des caractères numériques." : ""}
             />
+
             <FormControl fullWidth style={{ marginTop: 17 }}>
               <InputLabel>Agence</InputLabel>
               <Select
