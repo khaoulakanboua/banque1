@@ -152,6 +152,11 @@ export default function Employe() {
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = Form.useForm();
     const [selectedEmp, setSelectedEmp] = useState(null);
+    const [text, setText] = useState("");
+  const [isValid, setIsValid] = useState(true);
+  const [isValid1, setIsValid1] = useState(true);
+
+  const [text1, setText1] = useState("");
 
     const updateEmployee = () => {
         let d= {
@@ -184,7 +189,12 @@ export default function Employe() {
         setOpen(false);
         form.resetFields();
     };
-
+    const handleChange4 = (event) => {
+        setText(event.target.value);
+      };
+      const handleChange5 = (event) => {
+        setText1(event.target.value);
+      };
     const handleUpdate = (record) => {
         setSelectedEmp(record);
         setOpen(true);
@@ -198,6 +208,33 @@ export default function Employe() {
             setOpen(false);
         }, 1000);
     };
+
+        const handleKeyPress = (event) => {
+          const charCode = event.which || event.keyCode;
+          if (charCode >= 48 && charCode <= 57) {
+            event.preventDefault();
+          }
+        };
+        const handleKeyPress1 = (event) => {
+            const charCode = event.which || event.keyCode;
+            if (charCode >= 48 && charCode <= 57) {
+              event.preventDefault();
+              setIsValid(false);
+            } else {
+              setIsValid(true);
+            }
+          };
+
+          const handleKeyPress2 = (event) => {
+            const charCode = event.which || event.keyCode;
+            if (charCode >= 48 && charCode <= 57) {
+              event.preventDefault();
+              setIsValid1(false);
+            } else {
+              setIsValid1(true);
+            }
+          };
+
 
     useEffect(() => {
         console.log("Selected Ville after update: ", selectedEmp);
@@ -245,17 +282,21 @@ export default function Employe() {
                                             autoComplete="cin"
                                         />
                                     </Grid>
-                                    <Grid item xs={12} sm={4}>
-                                        <TextField
-                                            margin="normal"
-                                            required
-                                            fullWidth
-                                            name="nom"
-                                            label="nom"
-                                            id="nom"
-                                            autoComplete="nom"
-                                        />
-                                    </Grid>
+      <Grid item xs={12} sm={4}>
+        <TextField
+          margin="normal"
+          required
+          fullWidth
+          name="nom"
+          label="nom"
+          id="nom"
+          autoComplete="nom"
+          onChange={handleChange4}
+          onKeyPress={handleKeyPress1}
+          error={!isValid}
+          helperText={!isValid ? "Veuillez entrer uniquement des caractères non numériques." : ""}
+        />
+      </Grid>
 
                                     <Grid item xs={12} sm={4}>
                                         <TextField
@@ -266,6 +307,11 @@ export default function Employe() {
                                             label="prenom"
                                             id="prenom"
                                             autoComplete="prenom"
+                                            onChange={handleChange5}
+                                            onKeyPress={handleKeyPress2}
+                                            error={!isValid1}
+                                            helperText={!isValid1 ? "Veuillez entrer uniquement des caractères non numériques." : ""}
+
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>
@@ -288,6 +334,7 @@ export default function Employe() {
                                             label="email"
                                             id="email"
                                             autoComplete="email"
+                                            type="email"
                                         />
                                     </Grid>
                                     <Grid item xs={12} sm={6}>

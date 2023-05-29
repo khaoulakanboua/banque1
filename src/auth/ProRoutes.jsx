@@ -11,7 +11,6 @@ import Compte from '../pages/Compte';
 import Banque from '../pages/Banque';
 import Operation from '../pages/Operation';
 import Banque1 from '../pages/Banque1';
-import ErrorPage from '../pages/ErrorPage';
 
 export default function ProRoutes() {
   return (
@@ -50,7 +49,6 @@ export default function ProRoutes() {
                    && (
                 <Route path='Banque1' element={<Banque1 />} />
                  )}
-                 <Route path='*' element={<ErrorPage/>} />
             </Route>
         </Routes>
         </div>

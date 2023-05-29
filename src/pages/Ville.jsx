@@ -32,6 +32,8 @@ export default function Ville() {
   const [form] = Form.useForm();
   const [modalVille, setMv] = useState("");
   const [selectedAgence, setselectedAgence] = useState(null);
+  const [text, setText] = useState("");
+  const [isValid, setIsValid] = useState(true);
   //
 
   // SAVE
@@ -139,7 +141,24 @@ export default function Ville() {
       setOpen(false);
     }, 1000);
   };
-
+  const handleKeyPress = (event) => {
+    const charCode = event.which || event.keyCode;
+    if (charCode >= 48 && charCode <= 57) {
+      event.preventDefault();
+    }
+  };
+  const handleChange4 = (event) => {
+    setText(event.target.value);
+  };
+  const handleKeyPress1 = (event) => {
+    const charCode = event.which || event.keyCode;
+    if (charCode >= 48 && charCode <= 57) {
+      event.preventDefault();
+      setIsValid(false);
+    } else {
+      setIsValid(true);
+    }
+  };
   useEffect(() => {
     console.log("selectedAgence after update: ", selectedAgence);
   }, [selectedAgence]);
@@ -215,6 +234,11 @@ export default function Ville() {
               label="nom"
               id="nom"
               autoFocus
+              onChange={handleChange4}
+          onKeyPress={handleKeyPress1}
+          error={!isValid}
+          helperText={!isValid ? "Veuillez entrer uniquement des caractères non numériques." : ""}
+
             />
             <TextField
               margin="normal"
