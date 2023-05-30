@@ -22,8 +22,9 @@ export default function Banque1() {
   const saveProduct = () => {
     if (!montant || !compte.cin) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
-    } else {
+    }else if(montant > compte.solde){
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'sold insuffisant', life: 3000 });
+    }else {
       console.log(montant, compte.cin)
       Banqueservice.depotByCinClient(compte, montant)
         .then(() => {
@@ -36,7 +37,8 @@ export default function Banque1() {
   const saveProduct1 = () => {
     if (!montant || !compte.cin) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
+    }else if(montant > compte.solde){
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'sold insuffisant', life: 3000 });
     } else {
       console.log(montant, compte.cin)
       Banqueservice.retraitByCinClient(compte, montant)
@@ -48,9 +50,12 @@ export default function Banque1() {
     }
   };
   const saveProduct2 = () => {
+    console.log(montant);
+    console.log(compte.solde);
     if (!montant || !compte.clientEnvoie || !compte.clientRecoit) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
+    }else if(montant > compte.solde){
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'sold insuffisant', life: 3000 });
     } else {
      // console.log(montant, compte.compteEnvoie,compte.compteRecoit)
       Banqueservice.viremantBetweenClientByCin(compte.clientEnvoie,compte.clientRecoit, montant)

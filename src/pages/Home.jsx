@@ -42,6 +42,7 @@ const Home = () => {
   const [operations, setOperations] = useState(null);
   const [id, setId] = useState(null);
   const [banqueDialog, setBanqueDialog] = useState(false);
+  const [banqueDialogCIN, setBanqueDialogCIN] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [montant, setMontant] = useState();
   const toast = useRef(null);
@@ -160,9 +161,39 @@ const Home = () => {
       };
     }
   };
+  // cin
+  const saveProductCIN = () => {
+    if (!montant) {
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
+    } else {
+      try {
+        console.log(client.cin)
+        console.log(compte.clientRecoit);
+        console.log(montant);
+        if (montant > compte.solde) {
+          toast.current.show({ severity: 'error', summary: 'Error', detail: 'sold insuffisant', life: 3000 });
+        }
+        else {
+          Banqueservice.viremantBetweenClientByCin(client.cin, compte.clientRecoit, montant)
+            .then(() => {
+              setSubmitted(true);
+              setBanqueDialogCIN(false)
+              toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+              fetchData();
+              fetchDataCompte();
+            })
+        }
+      }
+      catch (error) {
+        toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'err', life: 3000 });
+      };
+    }
+  };
+
   const hideDialog = () => {
     setSubmitted(false);
     setBanqueDialog(false);
+    setBanqueDialogCIN(false);
   };
 
   const onInputNumberChange = (e) => {
@@ -186,6 +217,13 @@ const Home = () => {
       <Button label="Save" icon="pi pi-check" onClick={saveProduct} />
     </React.Fragment>
   );
+
+  const banqueDialogFooter2 = (
+    <React.Fragment>
+      <Button label="Cancel" icon="pi pi-times" outlined onClick={hideDialog} />
+      <Button label="Save" icon="pi pi-check" onClick={saveProductCIN} />
+    </React.Fragment>
+  );
   const renderMontant = (rowData) => {
     return (
       <>
@@ -193,6 +231,14 @@ const Home = () => {
       </>
     );
   };
+
+  const currentDate = new Date();
+  const options = {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  };
+  const localDate = currentDate.toLocaleDateString("en-US", options);
 
   return (
     <>
@@ -355,11 +401,12 @@ const Home = () => {
                     </Text>
                   </div>
 
-                  <div className="flex flex-1 flex-row items-center justify-start w-full">
+                  <div className="flex flex-1 flex-row items-center justify-start w-full mt-[50px]">
                     <Button
                       className="flex h-[55px] items-center justify-center rounded-[50%] w-[55px]"
                       size="mdIcn"
                       variant="icbFillGray102"
+                      onClick={() => setBanqueDialogCIN(true)}
                     >
                       <Img
                         src="images/img_link.svg"
@@ -367,12 +414,40 @@ const Home = () => {
                         alt="link"
                       />
                     </Button>
+                    <div className="card flex justify-content-center">
+
+                      <Dialog visible={banqueDialogCIN} style={{ width: '32rem' }} breakpoints={{ '960px': '75vw', '641px': '90vw' }} header="Virement : " modal className="p-fluid" footer={banqueDialogFooter2} onHide={hideDialog}>
+
+                        <div className="field">
+                          <label htmlFor="clientEnvoie" className="font-bold">
+                            Num cin Envoie :
+                          </label>
+                          <InputText id="clientEnvoie" value={client?.cin} required rows={3} cols={20} />
+                        </div>
+                        <div className="field">
+                          <label htmlFor="clientRecoit" className="font-bold">
+                            Num cin Recoit :
+                          </label>
+                          <InputText id="clientRecoit" value={compte?.clientRecoit} onChange={(e) => onInputChange(e, 'clientRecoit')} required rows={3} cols={20} />
+                          {submitted && !compte.clientRecoit && <small className="p-error">Cin est vide!</small>}
+                        </div>
+                        <div className="formgrid grid">
+                          <div className="field col">
+                            <label htmlFor="montant" className="font-bold">
+                              Price
+                            </label>
+                            <InputNumber id="montant" value={montant} onValueChange={(e) => onInputNumberChange(e, 'montant')} required mode="currency" currency="MAD" locale="en-US" />
+                          </div>
+                        </div>
+
+                      </Dialog>
+                    </div>
                     <div className="flex flex-col gap-[7px] items-center justify-start ml-[17px]">
                       <Text
                         className="font-medium text-bluegray_600"
                         variant="body1"
                       >
-                        Deposit Paypal
+                        Verement by cin
                       </Text>
                       <Text
                         className="font-normal text-bluegray_400"
