@@ -451,7 +451,7 @@ const Home = () => {
                         className="font-normal text-bluegray_400"
                         variant="body2"
                       >
-                        {localDate}
+                        25 January 2021
                       </Text>
                     </div>
                     <Text
@@ -461,7 +461,39 @@ const Home = () => {
                       +2,500 DH
                     </Text>
                   </div>
-
+                  <div className="flex flex-1 flex-row items-center justify-start w-full">
+                    <Button
+                      className="flex h-[55px] items-center justify-center rounded-[50%] w-[55px]"
+                      size="mdIcn"
+                      variant="icbFillGray102"
+                    >
+                      <Img
+                        src="images/img_clock.svg"
+                        className="h-7"
+                        alt="clock"
+                      />
+                    </Button>
+                    <div className="flex flex-col gap-[7px] items-start justify-start ml-[17px]">
+                      <Text
+                        className="font-medium text-bluegray_600"
+                        variant="body1"
+                      >
+                        Jemi Wilson
+                      </Text>
+                      <Text
+                        className="font-normal text-bluegray_400"
+                        variant="body2"
+                      >
+                        21 January 2021
+                      </Text>
+                    </div>
+                    <Text
+                      className="font-medium ml-12 text-green_600"
+                      variant="body1"
+                    >
+                      +5,400 DH
+                    </Text>
+                  </div>
                   <div className="flex flex-col gap-[7px] items-end mt-[-220px] mr-[50px]">
                     <QRCode value={`NOM: ${client?.nom} Prenom: ${client?.prenom} Numero Compte:${compte?.numeroCompte}`} />
                   </div>
