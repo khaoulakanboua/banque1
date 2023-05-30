@@ -59,10 +59,6 @@ export default function Header() {
             label: 'Operation',
             command: () => { navigate('/app/operation') }
         },
-        {
-            label: 'Profile',
-            command: () => { navigate('/app/Profile') }
-        },
         
     ];
 
@@ -78,10 +74,6 @@ export default function Header() {
         {
             label: 'Compte',
             command: () => { navigate('/app/compte') }
-        },
-        {
-            label: 'Banque',
-            command: () => { navigate('/app/banque') }
         },
         {
 
@@ -104,21 +96,13 @@ export default function Header() {
             label: 'Operation',
             command: () => { navigate('/app/operation') }
         },
-        {
-            label: 'Profile',
-            command: () => { navigate('/app/Profile') }
-        },
-        
     ];
 
     const itemuser =[
         {
             label: 'Logout',
             command: () => { logout()}
-        }, {
-            label: 'Profile',
-            command: () => { navigate('/app/Profile') }
-        },
+        }, 
         
     ];
 
