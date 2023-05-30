@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from 'primereact/button';
 import { TabView, TabPanel } from 'primereact/tabview';
 import { InputNumber } from 'primereact/inputnumber';
@@ -8,13 +8,13 @@ import { InputTextarea } from 'primereact/inputtextarea';
 import { Banqueservice } from '../service/banque.service';
 import { Toast } from 'primereact/toast';
 import { Message } from 'primereact/message';
+import { Compteservice } from '../service/compte.service';
 
 export default function Banque() {
   const [banqueDialog, setBanqueDialog] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [montant, setMontant] = useState();
-  const [solde, setSolde] = useState(0);
-
+  const [solde, setSolde] = useState(0);  
 
   const toast = useRef(null);
   let retrait = {
@@ -22,10 +22,11 @@ export default function Banque() {
   }
   const [compte, setCompte] = useState(retrait)
 
+
+
   const saveProduct = () => {
     if (!montant || !compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
     } else {
       console.log(montant, compte.numeroCompte)
       Banqueservice.depotByNumeroCompte(compte, montant)
@@ -39,7 +40,9 @@ export default function Banque() {
   const saveProduct1 = () => {
     if (!montant || !compte.numeroCompte) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-    } else {
+    }else if(  Banqueservice.retraitByNumeroCompte(compte, montant)===false){
+      toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'sold insuffisant', life: 3000 });
+    }  else {
       console.log(montant, compte.numeroCompte)
       Banqueservice.retraitByNumeroCompte(compte, montant)
         .then(() => {
@@ -52,11 +55,11 @@ export default function Banque() {
   const saveProduct2 = () => {
     if (!montant || !compte.compteEnvoie || !compte.compteRecoit) {
       toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'Remplir tous les info', life: 3000 });
-
-    } else {
+    }else if(montant > compte.solde){
+        toast.current.show({ severity: 'warn', summary: 'Warning', detail: 'sold insuffisant', life: 3000 });
+      } else {
       // console.log(montant, compte.compteEnvoie,compte.compteRecoit)
       Banqueservice.viremantBetweenClientByNumeroCompte(compte.compteEnvoie, compte.compteRecoit, montant)
-
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
