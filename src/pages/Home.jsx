@@ -455,7 +455,7 @@ const Home = () => {
                         className="font-normal text-bluegray_400"
                         variant="body2"
                       >
-                       {localDate}
+                        {localDate}
                       </Text>
                     </div>
                     <Text
@@ -465,7 +465,7 @@ const Home = () => {
                       +2,500 DH
                     </Text>
                   </div>
-                  
+
                   <div className="flex flex-col gap-[7px] items-end mt-[-220px] mr-[50px]">
                     <QRCode value={`NOM: ${client?.nom} Prenom: ${client?.prenom} Numero Compte:${compte?.numeroCompte}`} />
                   </div>
