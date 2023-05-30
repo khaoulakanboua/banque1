@@ -30,7 +30,7 @@ export default function Banque1() {
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
-          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Depot done', life: 2000 });
         })
     }
   };
@@ -63,7 +63,7 @@ export default function Banque1() {
         .then(() => {
           setSubmitted(true);
           setBanqueDialog(false)
-          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Retrait done', life: 2000 });
+          toast.current.show({ severity: 'success', summary: 'Successful', detail: 'Virement done', life: 2000 });
         })
     }
   };

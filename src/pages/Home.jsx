@@ -114,12 +114,10 @@ const Home = () => {
     fetchDataCompte();
   }, [id]);
 
-  useEffect(() => {
-    Operationservice.getAllOperation().then((res) => setOperations(res.data));
-  }, []);
+ 
 
   const fetchDataOperation = async () => {
-    if (utilisateurService.getId()) {
+    if (id) {
       try {
         const operationResponse = await Operationservice.getByCompte(id);
         setOperations(operationResponse.data);
@@ -132,11 +130,11 @@ const Home = () => {
 
   useEffect(() => {
     fetchDataOperation();
-  }, []);
+  }, [id]);
 
-  useEffect(() => {
+ /* useEffect(() => {
     console.log(operations);
-  }, [operations]);
+  }, [operations]);*/
   ///************************* */
 
   const saveProduct = () => {
@@ -334,9 +332,7 @@ const Home = () => {
                 </div>
               </div>
               <div className="flex md:flex-1 flex-col gap-5 items-start justify-start w-[32%] md:w-full">
-                <Text className="text-bluegray_900" as="h3" variant="h3">
-                  Recent Transaction
-                </Text>
+              
                 <List
                   className="bg-white_A700 flex-col gap-2.5 grid items-center p-6 sm:px-5 rounded-[25px] w-full"
                   orientation="vertical"
@@ -386,13 +382,13 @@ const Home = () => {
                         className="font-medium text-bluegray_600"
                         variant="body1"
                       >
-                        Virement by num compte
+                        Virement
                       </Text>
                       <Text
                         className="font-normal text-bluegray_400"
                         variant="body2"
                       >
-                        {localDate}
+                        28 January 2021
                       </Text>
                     </div>
                     <Text
@@ -475,7 +471,7 @@ const Home = () => {
             <div className="flex md:flex-col flex-row gap-[30px] items-center justify-between w-full">
               <div className="col-12 xl:col-6">
                 <div className="card">
-                  <h5>Recent Sales</h5>
+                  <h5>Recent Transactions</h5>
                   <DataTable value={operations} rows={5} paginator responsiveLayout="scroll">
                     <Column field="montant" header="montant" sortable style={{ width: '35%' }} body={renderMontant} />
                     <Column field="date" header="date" sortable style={{ width: '35%' }} />

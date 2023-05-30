@@ -110,25 +110,27 @@ export default function Agence() {
   //
 
   const updateZone = () => {
+    // Mise à jour des modifications
     let upForm = {
       id: selectedAgence.id,
       code: form.getFieldValue("code"),
       adresse: form.getFieldValue("adresse"),
-      ville:{
-        id : modalVille,
-      } 
-    }
-    console.log("upForm ", upForm)
+      ville: {
+        id: modalVille,
+      },
+    };
+  
     Agenceservice.UpdateAgence(upForm)
-    .then(() => {
+      .then(() => {
         form.resetFields();
         setOpen(false);
+        forceUpdate(); // Rafraîchir la table
       })
       .catch((error) => {
         console.log(error);
       });
-    forceUpdate();
   };
+  
 
   const handleCancel = () => {
     setselectedAgence(null);
@@ -137,10 +139,11 @@ export default function Agence() {
   };
 
   const handleUpdate = (record) => {
+    console.log("Selected Agence:", record);
     setselectedAgence(record);
     setOpen(true);
   };
-
+  
   const handleSubmit = () => {
     setConfirmLoading(true);
     updateZone();
